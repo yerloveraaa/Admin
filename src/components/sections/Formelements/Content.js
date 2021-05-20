@@ -1,11 +1,13 @@
-import React, { Component } from 'react';
+import React from 'react'
+
 import Breadcrumb from './Breadcrumb';
 import { Dropdown } from 'react-bootstrap';
 
-class Content extends Component {
-    render() {
-        return (
-            <div className="ms-content-wrapper">
+
+export default function Content() {
+    return (
+        <>
+           <div className="ms-content-wrapper">
                 <div className="row">
                     <div className="col-md-12">
                         <Breadcrumb/>
@@ -393,9 +395,6 @@ class Content extends Component {
                     </div>
                 </div>
             </div>
-
-        );
-    }
+        </>
+    )
 }
-
-export default Content;

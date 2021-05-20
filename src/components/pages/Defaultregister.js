@@ -7,9 +7,9 @@ class Defaultregister extends Component {
     render() {
         return (
             <div className="ms-body ms-primary-theme ms-logged-out">
-                <Sidenavigation />
+                {/* <Sidenavigation /> */}
                 <main className="body-content">
-                    <Topnavigation />
+                    {/* <Topnavigation /> */}
                     <Content/>
                 </main>
             </div>

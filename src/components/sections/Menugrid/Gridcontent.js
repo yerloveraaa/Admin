@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React  from 'react';
 import Breadcrumb from './Breadcrumb';
 
 import img1 from '../../../assets/img/costic/food-1.jpg';
@@ -85,8 +85,8 @@ const gridboxes = [
     },
 ]
 
-class Gridcontent extends Component {
-    render() {
+        const  Gridcontent = () =>  {
+   
         return (
             <div className="ms-content-wrapper">
                 <div className="row">
@@ -123,7 +123,7 @@ class Gridcontent extends Component {
             </div>
 
         );
-    }
+    
 }
 
 export default Gridcontent;

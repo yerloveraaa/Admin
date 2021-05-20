@@ -1,26 +1,47 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom'
+import React, {  useEffect, useState } from 'react';
+import { Link, useHistory } from 'react-router-dom'
 import $ from 'jquery';
 import { Dropdown, NavLink } from 'react-bootstrap';
 import Scrollbar from 'react-perfect-scrollbar'
 import 'react-perfect-scrollbar/dist/css/styles.css';
 
 import costiclogo from '../../assets/img/costic/costic-logo-84x41.png'
+import { useDispatch, useSelector } from 'react-redux';
+import { login, startLogout } from '../action/auth';
 
-class Topnavigation extends Component {
-    addsidenavigation = () => {
+import {firebase} from '../firebase/firebaseConfig'
+import Preloader from './Preloader';
+
+const Topnavigation = () => {
+
+    const dispatch = useDispatch();
+ 
+    
+  
+
+
+
+    const addsidenavigation = () => {
         $('.ms-body').toggleClass('ms-aside-left-open');
         $('#ms-side-nav').toggleClass('ms-aside-open');
         $(".ms-aside-overlay.ms-overlay-left").toggleClass('d-block');
     }
-    topbaropen = () => {
+
+    const topbaropen = () => {
         $('#ms-nav-options').toggleClass('ms-slide-down');
     }
 
-    render() {
-        return (
-            <nav className="navbar ms-navbar">
-                <div className="ms-aside-toggler ms-toggler pl-0" onClick={this.addsidenavigation}>
+
+    const handleLogout = () => {
+        dispatch(startLogout())
+    }
+   
+ 
+
+
+    return (
+        <nav className="navbar ms-navbar">
+                    <div className="ms-aside-toggler ms-toggler pl-0" onClick={addsidenavigation}>
                     <span className="ms-toggler-bar bg-primary" />
                     <span className="ms-toggler-bar bg-primary" />
                     <span className="ms-toggler-bar bg-primary" />
@@ -137,22 +158,28 @@ class Topnavigation extends Component {
                                     <Link className="media fs-14 p-2" to="/lockscreen"> <span><i className="flaticon-security mr-2" /> Lock</span>
                                     </Link>
                                 </div>
-                                <div className="dropdown-menu-footer">
-                                    <Link className="media fs-14 p-2" to="/default-login"> <span><i className="flaticon-shut-down mr-2" /> Logout</span>
+                                <div
+                                 className="dropdown-menu-footer"
+                                 onClick={handleLogout}
+                                >
+                                    <Link 
+                                   
+                                    className="media fs-14 p-2" 
+                                   > <span><i className="flaticon-shut-down mr-2" /> 
+                                    Logout</span>
                                     </Link>
                                 </div>
                             </Dropdown.Menu>
                         </Dropdown>
                     </li>
                 </ul>
-                <div className="ms-toggler ms-d-block-sm pr-0 ms-nav-toggler" onClick={this.topbaropen}>
+                <div className="ms-toggler ms-d-block-sm pr-0 ms-nav-toggler"  onClick={topbaropen}>
                     <span className="ms-toggler-bar bg-primary" />
                     <span className="ms-toggler-bar bg-primary" />
                     <span className="ms-toggler-bar bg-primary" />
                 </div>
             </nav >
-        );
-    }
+    )
 }
 
 export default Topnavigation;
