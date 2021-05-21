@@ -1,17 +1,69 @@
-import React from 'react';
-import { ErrorMessage, useField } from 'formik';
+import React, {useState} from "react";
+import ReactDOM from "react-dom";
+import firebase from "firebase";
+import FileUploader from "react-firebase-file-uploader";
+import { db, storage } from "../../firebase/firebaseConfig";
 
-export const TextField = ({ label, ...props }) => {
-  const [field, meta] = useField(props);
-  return (
-    <div className="col-md-6 mb-3">
-      {/* <label htmlFor={field.name}>{label}</label> */}
-      <input
-        className={`form-control shadow-none ${meta.touched && meta.error && 'is-invalid'}`}
-        {...field} {...props}
-        autoComplete="off"
-      />
-      <ErrorMessage component="div" name={field.name} className="error" />
-    </div>
-  )
-}
+ 
+
+const  Addproductcontent = () => {
+
+  const [ filenames, setFilenames] = useState([]);
+  const [ downloadURLs, setDownloadURLs] = useState([]);
+  const [ isUploading, setIsUploading] = useState(false);
+  const [ uploadProgress, setUploadProgress] = useState(0);
+
+
+
+ 
+
+ 
+  const handleUploadSuccess = async filename => {
+    const downloadURL = await firebase.storage()
+      .ref("images")
+      .child(filename)
+      .getDownloadURL();
+      
+
+      // setFilenames([...filenames,filename])
+      // setDownloadURLs([...downloadURLs, downloadURL])
+      this.setState(oldState => ({
+        filenames: [...oldState.filenames, filename],
+        downloadURLs: [...oldState.downloadURLs, downloadURL],
+        uploadProgress: 100,
+        isUploading: false
+      }));
+     
+  
+  };
+
+  const datos = () => {
+    console.log(downloadURLs)
+  }
+ 
+    return (
+      <div>
+        <FileUploader
+          accept="image/*"
+          name="image-uploader-multiple"
+          randomizeFilename
+          storageRef={storage.ref("images")}
+          onUploadSuccess={handleUploadSuccess}
+          multiple
+        />
+
+        <div>
+          {/* {downloadURLs.map((downloadURL, i) => {
+            return <img key={i} src={downloadURL} />;
+          })} */}
+        </div>
+        <button
+        onClick={datos}
+        >datos</button>
+      </div>
+    );
+  }
+
+ 
+
+export default Addproductcontent
