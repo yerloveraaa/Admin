@@ -4,6 +4,8 @@ import Topnavigation from '../layouts/Topnavigation';
 import Addproductcontent from '../sections/Addproduct/Addproductcontent'
 import Quickbar from '../layouts/Quickbar';
 
+
+
 class Addproduct extends Component {
     render() {
         return (
@@ -12,6 +14,7 @@ class Addproduct extends Component {
                 <main className="body-content">
                     <Topnavigation />
                     <Addproductcontent/>
+                   
                 </main>
                 <Quickbar />
             </div>

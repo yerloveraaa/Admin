@@ -13,7 +13,7 @@ import {
 
 import Defaultlogin from '../components/pages/Defaultlogin';
 import Dashboard from '../components/pages/Dashboard';
-
+import UpdateProduct from '../components/pages/UpdateProduct';
 import Accordions from '../components/pages/Accordions';
 import Addproduct from '../components/pages/Addproduct';
 import Alerts from '../components/pages/Alerts';
@@ -82,10 +82,13 @@ import Webanalytics from '../components/pages/Webanalytics';
 
 
 
+
 import  PrivateRoute from './PrivateRoute';
 import { PublicRoute } from './PublicRoute';
 import { login } from '../components/action/auth';
 import Preloader from '../components/layouts/Preloader';
+import { startLoadingProducts } from '../components/action/products';
+
 
 
 
@@ -106,7 +109,7 @@ import Preloader from '../components/layouts/Preloader';
                 dispatch( login( user.uid, user.displayName ) );
                 setIsLoggedIn( true);
 
-                // dispatch( startLoadingNotes( user.uid ) );
+                dispatch(  startLoadingProducts( user.uid ) );
 
             } else {
                 setIsLoggedIn( false );
@@ -143,6 +146,12 @@ import Preloader from '../components/layouts/Preloader';
                 <PrivateRoute
                 path="/add-product" 
                 component={Addproduct} 
+                isAuthenticated={ isLoggedIn }
+                />
+
+                 <PrivateRoute
+                path="/update-product" 
+                component={UpdateProduct} 
                 isAuthenticated={ isLoggedIn }
                 />
                 

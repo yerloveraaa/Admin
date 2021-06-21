@@ -75,6 +75,8 @@ const  Sidenavigation = () => {
                                 </li >
                                 <li> <Link to="/product-detail" >Product Detail</Link>
                                 </li >
+                                <li> <Link to="/update-product" >Product Update</Link>
+                                </li >
                             </ul >
                         </li >
                         {/* product end */}

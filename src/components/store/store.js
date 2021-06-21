@@ -13,7 +13,7 @@ const composeEnhancers =
 const reducers = combineReducers({
   auth: authReducer,
   ui: uiReducer,
-  product: productReducer
+  products: productReducer
 });
 
 export const store = createStore(

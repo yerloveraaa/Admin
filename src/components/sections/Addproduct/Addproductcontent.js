@@ -1,87 +1,260 @@
-import React, {Component} from "react";
-import FileUploader from "react-firebase-file-uploader";
+import { useFormik } from "formik";
+import React, { useState } from "react";
+import Breadcrumb from "./Breadcrumb";
+import * as Yup from "yup";
 import { db, storage } from "../../firebase/firebaseConfig";
-import Thumb from "./Thumb";
+import FileUploader from "react-firebase-file-uploader";
+import { useDispatch, useSelector } from "react-redux";
 
- 
+import { useHistory } from "react-router-dom";
+import { startLoadingProducts, startSaveProduct } from "../../action/products";
+import { useForm } from "../../hooks/useForm";
 
-   
-  class Addproductcontent extends Component {
-   
-    state = {
-      filenames: [],
-      downloadURLs: [],
-      isUploading: false,
-      uploadProgress: 0
-    };
-   
-    handleUploadStart = () =>
-      this.setState({
-        isUploading: true,
-        uploadProgress: 0
-      });
-   
-    handleProgress = progress =>
-      this.setState({
-        uploadProgress: progress
-      });
-   
-    handleUploadError = error => {
-      this.setState({
-        isUploading: false
-        // Todo: handle error
-      });
-      console.error(error);
-    };
-   
-    handleUploadSuccess = async filename => {
-      const downloadURL = await storage
-        .ref("images")
-        .child(filename)
-        .getDownloadURL();
-   
-      this.setState(oldState => ({
-        filenames: [...oldState.filenames, filename],
-        downloadURLs: [...oldState.downloadURLs, downloadURL],
-        uploadProgress: 100,
-        isUploading: false
-      }));
-    };
-         
- 
+function Addproductcontent() {
+  let history = useHistory();
+  const dispatch = useDispatch();
 
-    render() {
-     
-      return (
-        <div>
-             <Thumb
-                   downloadURLs={this.state.downloadURLs}
-                    />
-          <FileUploader
-            accept="image/*"
-            name="image-uploader-multiple"
-            randomizeFilename
-            storageRef={storage.ref("images")}
-            onUploadStart={this.handleUploadStart}
-            onUploadError={this.handleUploadError}
-            onUploadSuccess={this.handleUploadSuccess}
-            onProgress={this.handleProgress}
-            multiple
-          />
-   
-          <p>Progress: {this.state.uploadProgress}</p>
-   
-          <p>Filenames: {this.state.filenames.join(", ")}</p>
-          filenames
-        
-          <div>
-            {this.state.downloadURLs.map((downloadURL, i) => {
-              return <img key={i} src={downloadURL} />;
-            })}
+  const [subiendo, guardarSubiendo] = useState(false);
+  const [progreso, guardarProgreso] = useState(0);
+  const [productImage, setProductImage] = useState("");
+  const [ multipleImagen,  setMultipleImagen] = useState([]);
+
+  const { uid } = useSelector((state) => state.auth);
+
+  const [formValues, handleInputChange, reset] = useForm({
+    category: "",
+    description: "",
+    price: "",
+    product: "",
+  });
+
+  const { category, description, price, product,  } = formValues;
+
+  const handleUploadStart = () => {
+    guardarProgreso(0);
+    guardarSubiendo(true);
+  };
+  const handleUploadError = (error) => {
+    guardarSubiendo(false);
+    console.log(error);
+  };
+  const handleUploadSuccess = async (nombre) => {
+    guardarProgreso(100);
+    guardarSubiendo(false);
+    const url = await storage.ref("productos").child(nombre).getDownloadURL();
+    console.log(url)
+    setProductImage(url);
+  };
+
+  const handleUploadSuccessMultiple = async (filename) => {
+    let downloadURL = await storage
+      .ref("productos")
+      .child(filename)
+      .getDownloadURL();
+     setMultipleImagen(( multipleImagen) => [... multipleImagen, downloadURL]);
+  };
+
+  const handleProgress = (progreso) => {
+    guardarProgreso(progreso);
+  };
+
+  function handleClick() {
+    history.push("/menu-grid");
+  }
+
+  const handledSave = async (e) => {
+    e.preventDefault();
+    const data = { category, description, price, product,  productImage,  multipleImagen };
+    const doc = await db.collection(`${uid}/journal/products`).add(data);
+    dispatch(  startLoadingProducts( uid ) );
+    return handleClick()
+  };
+
+  return (
+    <div className="ms-content-wrapper">
+      <div className="row">
+        <div className="col-md-8">
+          <Breadcrumb />
+        </div>
+        <div className="col-md-8">
+          <div className="ms-panel ms-panel-fh">
+            <div className="ms-panel-header">
+              <h6>Create New Product </h6>
+            </div>
+            <div className="ms-panel-body">
+              <form  onSubmit={handledSave}>
+                <div className="form-row">
+                  <div className="col-md-12 mb-3">
+                    <label htmlFor="product">Product Name</label>
+                    <div className="input-group">
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="product"
+                        placeholder="Product Name"
+                        name="product"
+                        value={product}
+                        onChange={handleInputChange}
+                        required
+
+                      />
+                      <div className="valid-feedback">Looks good!</div>
+                    </div>
+                  </div>
+                  <div className="col-md-6 mb-3">
+                    <label htmlFor="category">Select Catagory</label>
+                    <div className="input-group">
+                      <select
+                        className="form-control"
+                        id="category"
+                        name="category"
+                        value={category}
+                        onChange={handleInputChange}
+                        required
+
+                      >
+                        <option value="">-- Seleccione --</option>
+                        <option value="desayuno">Desayuno</option>
+                        <option value="comida">Comida</option>
+                        <option value="cena">Cena</option>
+                        <option value="bebida">Bebidas</option>
+                        <option value="postre">Postre</option>
+                        <option value="ensalada">Ensalada</option>
+                      </select>
+                      <div className="invalid-feedback">
+                        Please select a Catagory.
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="col-md-6 mb-3">
+                    <label htmlFor="price">Price</label>
+                    <div className="input-group">
+                      <input
+                        type="text"
+                        className="form-control"
+                        id="price"
+                        placeholder="$10"
+                        name="price"
+                        value={price}
+                        onChange={handleInputChange}
+                        required
+
+                      />
+                      <div className="invalid-feedback">Price</div>
+                    </div>
+                  </div>
+                  <div className="col-md-12 mb-3">
+                    <label htmlFor="description">Description</label>
+                    <div className="input-group">
+                      <textarea
+                        rows={5}
+                        id="description"
+                        className="form-control"
+                        placeholder="Message"
+                        name="description"
+                        onChange={handleInputChange}
+                        value={description}
+                        required
+
+                      />
+                      <div className="invalid-feedback">
+                        Please provide a message.
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-md-12 mb-3">
+                    <label htmlFor="productImage">Cover Photo</label>
+                    <div className="custom-file">
+                      <FileUploader
+                        accept="image/*"
+                        id="productImage"
+                        name="productImage"
+                        className="custom-file-input"
+                        randomizeFilename
+                        storageRef={storage.ref("productos")}
+                        onUploadStart={handleUploadStart}
+                        onUploadError={handleUploadError}
+                        onUploadSuccess={handleUploadSuccess}
+                        onProgress={handleProgress}
+                        required
+                      />
+                      <label
+                        className="custom-file-label"
+                        htmlFor="productImage"
+                      >
+                        Upload Images...
+                      </label>
+                      <div className="invalid-feedback">
+                        Example invalid custom file feedback
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-md-12 mb-3">
+                    {productImage && (
+                      <div
+                        className="alert alert-success alert-outline mb-3"
+                        role="alert"
+                      >
+                        La imagen se subió correctamente
+                      </div>
+                    )}
+                  </div>
+                  <div className="col-md-12 mb-3">
+                    <label htmlFor="multipleImagen">Photos</label>
+                    <div className="custom-file">
+                      <FileUploader
+                        accept="image/*"
+                        id="multipleImagen"
+                        name="multipleImagen"
+                        randomizeFilename
+                        storageRef={storage.ref("productos")}
+                        onUploadSuccess={handleUploadSuccessMultiple}
+                        multiple
+                      />
+                      <label
+                        className="custom-file-label"
+                        htmlFor="multipleImagen"
+                      >
+                        Upload Images...
+                      </label>
+                      <div className="invalid-feedback">
+                        Example invalid custom file feedback
+                      </div>
+                    </div>
+                  </div>
+                  <div className="col-md-12 mb-3">
+                    { multipleImagen.length > 0 && (
+                      <div className="d-block mb-4 h-100">
+                        { multipleImagen.map((downloadURL, i) => {
+                          return (
+                            <img
+                              className="img-fluid img-thumbnail"
+                              key={i}
+                              src={downloadURL}
+                              width="304"
+                              height="236"
+                            />
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
+
+                  <button
+                    className="btn btn-block btn-info"
+                    type="submit"
+                  >
+                    Create Product
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
-      );
-    }
-  }
-   
-export default Addproductcontent
+      </div>
+    </div>
+  );
+}
+
+export default Addproductcontent;
