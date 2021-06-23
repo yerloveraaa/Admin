@@ -16,7 +16,7 @@ function Addproductcontent() {
 
   const [subiendo, guardarSubiendo] = useState(false);
   const [progreso, guardarProgreso] = useState(0);
-  const [productImage, setProductImage] = useState("");
+  const [productImage, setProductImage] = useState([]);
   const [ multipleImagen,  setMultipleImagen] = useState([]);
 
   const { uid } = useSelector((state) => state.auth);
@@ -38,12 +38,18 @@ function Addproductcontent() {
     guardarSubiendo(false);
     console.log(error);
   };
-  const handleUploadSuccess = async (nombre) => {
-    guardarProgreso(100);
-    guardarSubiendo(false);
-    const url = await storage.ref("productos").child(nombre).getDownloadURL();
-    console.log(url)
-    setProductImage(url);
+  const handleUploadSuccess = async (filename) => {
+    // guardarProgreso(100);
+    // guardarSubiendo(false);
+    // const url = await storage.ref("productos").child(nombre).getDownloadURL();
+    // console.log(url)
+    // setProductImage(url);
+    let downloadURL = await storage
+    .ref("productos")
+    .child(filename)
+    .getDownloadURL();
+    setProductImage(( multipleImagen) => [... multipleImagen, downloadURL]);
+
   };
 
   const handleUploadSuccessMultiple = async (filename) => {
@@ -177,7 +183,7 @@ function Addproductcontent() {
                         onUploadError={handleUploadError}
                         onUploadSuccess={handleUploadSuccess}
                         onProgress={handleProgress}
-                        required
+             
                       />
                       <label
                         className="custom-file-label"
@@ -191,12 +197,19 @@ function Addproductcontent() {
                     </div>
                   </div>
                   <div className="col-md-12 mb-3">
-                    {productImage && (
-                      <div
-                        className="alert alert-success alert-outline mb-3"
-                        role="alert"
-                      >
-                        La imagen se subió correctamente
+                  { productImage.length > 0 && (
+                      <div className="d-block mb-4 h-100">
+                        { productImage.map((downloadURL, i) => {
+                          return (
+                            <img
+                              className="img-fluid img-thumbnail"
+                              key={i}
+                              src={downloadURL}
+                              width="304"
+                              height="236"
+                            />
+                          );
+                        })}
                       </div>
                     )}
                   </div>
@@ -210,7 +223,7 @@ function Addproductcontent() {
                         randomizeFilename
                         storageRef={storage.ref("productos")}
                         onUploadSuccess={handleUploadSuccessMultiple}
-                        multiple
+                   
                       />
                       <label
                         className="custom-file-label"

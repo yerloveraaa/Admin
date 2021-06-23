@@ -8,33 +8,27 @@ import { db, storage } from "../../firebase/firebaseConfig";
 import FileUploader from "react-firebase-file-uploader";
 
 import { useHistory } from "react-router-dom";
-import { activeProduct, startRemoveImg, startSaveProduct } from "../../action/products";
+import { activeProduct, startDeleting, startRemoveImg,  startRemoveMultiple, startSaveProduct } from "../../action/products";
 
 function UpdateToProduct() {
 
   let history = useHistory();
 
   const dispatch = useDispatch();
-  const [subiendo, guardarSubiendo] = useState(false);
-  const [progreso, guardarProgreso] = useState(0);
-  const [urlimagen, guardarUrlimagen] = useState("");
-  const [downloadURLs, setDownloadURLs] = useState([]);
-  const [allImages, setImages] = useState([]);
-
-  const { uid } = useSelector((state) => state.auth);
-
   const { active: Product } = useSelector((state) => state.products);
+
+
+  const [productImage, setProductImage] = useState(Product.productImage);
+  const [multipleImagen, setMultipleImagen] = useState(Product.multipleImagen);
 
 
   const [formValues, handleInputChange, reset] = useForm(Product);
 
-  const {
+  let {
     id,
     description,
-    multipleImagen,
     price,
     product,
-    productImage,
     category,
   } = formValues;
 
@@ -45,7 +39,7 @@ function UpdateToProduct() {
       reset(Product);
       activeId.current = Product.id;
     }
-  }, [Product, reset]);
+  }, [Product, productImage, reset]);
 
 
   useEffect(() => {
@@ -53,21 +47,15 @@ function UpdateToProduct() {
   }, [formValues, dispatch]);
 
 
-  const handleUploadStart = () => {
-    guardarProgreso(0);
-    guardarSubiendo(true);
-  };
+  const handleUploadSuccess = async (filename) => {
+    let downloadURL = await storage
+    .ref("productos")
+    .child(filename)
+    .getDownloadURL();
+    setProductImage(( multipleImagen) => [... multipleImagen, downloadURL]);
 
-  const handleUploadError = (error) => {
-    guardarSubiendo(false);
-    console.log(error);
-  };
-
-  const handleUploadSuccess = async (nombre) => {
-    guardarProgreso(100);
-    guardarSubiendo(false);
-    const url = await storage.ref("productos").child(nombre).getDownloadURL();
-    guardarUrlimagen(url);
+    // const url = await storage.ref("productos").child(nombre).getDownloadURL();
+    // setProductImage(url);
   };
 
   const handleUploadSuccessMultiple = async (filename) => {
@@ -75,32 +63,33 @@ function UpdateToProduct() {
       .ref("productos")
       .child(filename)
       .getDownloadURL();
-    setDownloadURLs((downloadURLs) => [...downloadURLs, downloadURL]);
+    setMultipleImagen(( multipleImagen) => [... multipleImagen, downloadURL]);
   };
-
-  const handleProgress = (progreso) => {
-    guardarProgreso(progreso);
-  };
-
 
   const handledSave = () => {
-    dispatch(startSaveProduct(Product));
+    const producto = {...Product, productImage,  multipleImagen}
+    dispatch(startSaveProduct(producto));
     return history.push("/menu-grid");
   };
 
 
+  const deleteImgFirebase = (index) => {
+    let fileRef = storage.refFromURL(index);
+    fileRef.delete().then(function () {
+      console.log("File Deleted")
+    }).catch(function (error) {
+    });
+    dispatch(startRemoveImg(productImage, index, Product ))
+  };
 
-
-  const deleteImgFirebase = async () => {
-    let fileUrl =  productImage;
-    let fileRef = storage.refFromURL(fileUrl);
+  const deleteImgMultiple = (index) => {
+    let fileRef = storage.refFromURL(index);
     fileRef.delete().then(function () {
       console.log("File Deleted")
     }).catch(function (error) {
 
     });
-    dispatch(startRemoveImg(Product))
-    return  history.push("/menu-grid");
+    dispatch(startRemoveMultiple(multipleImagen, index, Product))   
   };
 
   return (
@@ -202,10 +191,7 @@ function UpdateToProduct() {
                       className="custom-file-input"
                       randomizeFilename
                       storageRef={storage.ref("productos")}
-                      onUploadStart={handleUploadStart}
-                      onUploadError={handleUploadError}
                       onUploadSuccess={handleUploadSuccess}
-                      onProgress={handleProgress}
                     />
                     <label
                       className="custom-file-label"
@@ -220,20 +206,24 @@ function UpdateToProduct() {
                 </div>
 
                 <div className="col-md-12 mb-3">
-                  {productImage && (
-                    <img
-                      className="img-fluid img-thumbnail"
-                      src={productImage}
-                      width="304"
-                      height="236"
-                    />
-
+                {productImage.length > 0 && (
+                    <div className="d-block mb-4 h-100">
+                      {productImage.map((downloadURL, index) => {
+                        return (
+                          <img
+                            className="img-fluid img-thumbnail"
+                            key={index}
+                            src={downloadURL}
+                            width="304"
+                            height="236"
+                            onClick={() => deleteImgFirebase(downloadURL)}
+                          />
+                         
+                        );
+                      })}
+                    </div>
                   )}
-                  <button
-                    onClick={deleteImgFirebase}
-                  >
-                    Delete
-                  </button>
+                
                 </div>
 
                 <div className="col-md-12 mb-3">
@@ -263,16 +253,17 @@ function UpdateToProduct() {
                 <div className="col-md-12 mb-3">
                   {multipleImagen.length > 0 && (
                     <div className="d-block mb-4 h-100">
-                      {multipleImagen.map((downloadURL, i) => {
-                        console.log(downloadURL)
+                      {multipleImagen.map((downloadURL, index) => {
                         return (
                           <img
                             className="img-fluid img-thumbnail"
-                            key={i}
+                            key={index}
                             src={downloadURL}
                             width="304"
                             height="236"
+                            onClick={() => deleteImgMultiple(downloadURL)}
                           />
+                         
                         );
                       })}
                     </div>

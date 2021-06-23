@@ -68,11 +68,11 @@ export const startSaveProduct = (product) => {
     return async (dispatch, getState) => {
         const {uid} = getState().auth;
 
-        if(!product.productImage){
-            delete product.productImage
-        }if(!product.multipleImagen){
-            delete product.multipleImagen;
-        }
+        // if(!product.productImage){
+        //     delete product.productImage
+        // }if(!product.multipleImagen){
+        //     delete product.multipleImagen;
+        // }
         
         const productToFirestore = {...product}
         delete productToFirestore.id;
@@ -84,17 +84,30 @@ export const startSaveProduct = (product) => {
 }
 
 
-export const startRemoveImg = (product) => {
+export const startRemoveImg = (productImage, index, product) => {
     return async (dispatch, getState) => {
         const {uid} = getState().auth;
-        product.productImage = ""
+        productImage.splice(index, 1)
+        console.log(productImage)
         const productToFirestore = {...product}
-        delete productToFirestore.id;
-         await db.doc(`${ uid }/journal/products/${ product.id }`).set( productToFirestore );
+        await db.doc(`${uid}/journal/products/${product.id}`).update(productToFirestore);
         dispatch(refreshProduct(product.id, productToFirestore))
     }
 
 }
+
+export const  startRemoveMultiple = (multipleImagen, index, product) => {
+    return async (dispatch, getState) => {
+        const {uid} = getState().auth;
+        multipleImagen.splice(index, 1)
+        console.log(multipleImagen)
+        const productToFirestore = {...product}
+        await db.doc(`${ uid }/journal/products/${ product.id }`).update(productToFirestore);
+        dispatch(refreshProduct(product.id, productToFirestore))
+    }
+
+}
+
 
 
 
