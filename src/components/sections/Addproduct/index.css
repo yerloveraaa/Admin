@@ -1,0 +1,28 @@
+.react-select {
+    margin: 1rem;
+    position: absolute;
+    width: 10rem;
+    border-color: red;
+  }
+  
+  .react-select
+    .react-select__control--is-focused.react-select__control--menu-is-open {
+    border-color: red;
+    box-shadow: 0 0 10px 1px pink;
+  }
+
+
+  .JMcustom-file-label {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    height: calc(1.5em + .75rem + 2px);
+    padding: .375rem .75rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+}

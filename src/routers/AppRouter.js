@@ -16,6 +16,7 @@ import Dashboard from '../components/pages/Dashboard';
 import UpdateProduct from '../components/pages/UpdateProduct';
 import Accordions from '../components/pages/Accordions';
 import Addproduct from '../components/pages/Addproduct';
+import AddRestaurants from '../components/pages/AddRestaurants';
 import Alerts from '../components/pages/Alerts';
 import Animations from '../components/pages/Animations';
 import Badges from '../components/pages/Badges';
@@ -93,6 +94,7 @@ import { startLoadingProducts } from '../components/action/products';
 
 
 
+
  const AppRouter = () => {
 
     const dispatch = useDispatch();
@@ -146,6 +148,12 @@ import { startLoadingProducts } from '../components/action/products';
                 <PrivateRoute
                 path="/add-product" 
                 component={Addproduct} 
+                isAuthenticated={ isLoggedIn }
+                />
+
+                <PrivateRoute
+                path="/add-restaurants" 
+                component={AddRestaurants} 
                 isAuthenticated={ isLoggedIn }
                 />
 
