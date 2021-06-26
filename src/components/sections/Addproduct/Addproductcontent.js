@@ -5,21 +5,25 @@ import * as Yup from "yup";
 import { db, storage } from "../../firebase/firebaseConfig";
 import FileUploader from "react-firebase-file-uploader";
 import { useDispatch, useSelector } from "react-redux";
+import firebase from 'firebase'
 
 import { useHistory } from "react-router-dom";
 import { startLoadingProducts, startSaveProduct } from "../../action/products";
 import { useForm } from "../../hooks/useForm";
 
+
+
+
 function Addproductcontent() {
   let history = useHistory();
   const dispatch = useDispatch();
 
-  const [subiendo, guardarSubiendo] = useState(false);
-  const [progreso, guardarProgreso] = useState(0);
   const [productImage, setProductImage] = useState([]);
   const [ multipleImagen,  setMultipleImagen] = useState([]);
 
   const { uid } = useSelector((state) => state.auth);
+
+  
 
   const [formValues, handleInputChange, reset] = useForm({
     category: "",
@@ -30,20 +34,8 @@ function Addproductcontent() {
 
   const { category, description, price, product,  } = formValues;
 
-  const handleUploadStart = () => {
-    guardarProgreso(0);
-    guardarSubiendo(true);
-  };
-  const handleUploadError = (error) => {
-    guardarSubiendo(false);
-    console.log(error);
-  };
+ 
   const handleUploadSuccess = async (filename) => {
-    // guardarProgreso(100);
-    // guardarSubiendo(false);
-    // const url = await storage.ref("productos").child(nombre).getDownloadURL();
-    // console.log(url)
-    // setProductImage(url);
     let downloadURL = await storage
     .ref("productos")
     .child(filename)
@@ -60,9 +52,7 @@ function Addproductcontent() {
      setMultipleImagen(( multipleImagen) => [... multipleImagen, downloadURL]);
   };
 
-  const handleProgress = (progreso) => {
-    guardarProgreso(progreso);
-  };
+
 
   function handleClick() {
     history.push("/menu-grid");
@@ -71,7 +61,7 @@ function Addproductcontent() {
   const handledSave = async (e) => {
     e.preventDefault();
     const data = { category, description, price, product,  productImage,  multipleImagen };
-    const doc = await db.collection(`${uid}/journal/products`).add(data);
+    const doc = await db.collection(`${uid}/journal/products`).add({data, createdAt: firebase.firestore.Timestamp.fromDate(new Date())});
     dispatch(  startLoadingProducts( uid ) );
     return handleClick()
   };
@@ -179,10 +169,8 @@ function Addproductcontent() {
                         className="custom-file-input"
                         randomizeFilename
                         storageRef={storage.ref("productos")}
-                        onUploadStart={handleUploadStart}
-                        onUploadError={handleUploadError}
                         onUploadSuccess={handleUploadSuccess}
-                        onProgress={handleProgress}
+                        
              
                       />
                       <label
