@@ -29,6 +29,14 @@ export const productReducer = (state = initialState, action) => {
         },
       };
 
+      case types.restaurantActive:
+        return {
+          ...state,
+          active: {
+            ...action.payload,
+          },
+        };
+
     case types.productAddNew:
       return {
         ...state,
@@ -40,6 +48,13 @@ export const productReducer = (state = initialState, action) => {
         ...state,
         products: [...action.payload],
       };
+
+      case types.restaurantLoad:
+        return {
+          ...state,
+         restaurants : [...action.payload],
+        };
+
     case types.productsUpdated:
       return {
         ...state,
@@ -55,6 +70,15 @@ export const productReducer = (state = initialState, action) => {
           (product) => product.id !== action.payload
         ),
       };
+
+      case types.restaurantDelete:
+        return {
+          ...state,
+          active: null,
+          restaurants: state.restaurants.filter(
+            (restaurant) => restaurant.id !== action.payload
+          ),
+        };
 
     case types.notesLogoutCleaning:
       return {

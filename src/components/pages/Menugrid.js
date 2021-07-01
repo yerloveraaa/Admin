@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Sidenavigation from '../layouts/Sidenavigation';
 import Topnavigation from '../layouts/Topnavigation';
 import Gridcontent from '../sections/Menugrid/Gridcontent'
-import Quickbar from '../layouts/Quickbar';
+
 
 class Menugrid extends Component {
     render() {
@@ -13,7 +13,7 @@ class Menugrid extends Component {
                     <Topnavigation />
                     <Gridcontent/>
                 </main>
-                <Quickbar />
+                
             </div>
         );
     }

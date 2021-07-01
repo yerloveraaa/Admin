@@ -61,7 +61,7 @@ function Addproductcontent() {
   const handledSave = async (e) => {
     e.preventDefault();
     const data = { category, description, price, product,  productImage,  multipleImagen };
-    const doc = await db.collection(`${uid}/journal/products`).add({data, createdAt: firebase.firestore.Timestamp.fromDate(new Date())});
+    const doc = await db.collection(`${uid}/journal/products`).add(data);
     dispatch(  startLoadingProducts( uid ) );
     return handleClick()
   };
@@ -69,10 +69,7 @@ function Addproductcontent() {
   return (
     <div className="ms-content-wrapper">
       <div className="row">
-        <div className="col-md-8">
-          <Breadcrumb />
-        </div>
-        <div className="col-md-8">
+        <div className="col-md-12">
           <div className="ms-panel ms-panel-fh">
             <div className="ms-panel-header">
               <h6>Create New Product </h6>
@@ -211,6 +208,7 @@ function Addproductcontent() {
                         randomizeFilename
                         storageRef={storage.ref("productos")}
                         onUploadSuccess={handleUploadSuccessMultiple}
+                        multiple
                    
                       />
                       <label

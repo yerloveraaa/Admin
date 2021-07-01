@@ -1,10 +1,9 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
-import { activeProduct, startDeleting } from "../../action/products";
-import Breadcrumb from "./Breadcrumb";
+import { activeRestaurant, startDeletingRestaurant } from "../../action/products";
 
-export default function ProductsGrids({
+export default function RestaurantGrids({
   id,
   description,
   multipleImagen,
@@ -17,21 +16,16 @@ export default function ProductsGrids({
 
    const dispatch = useDispatch()
    let history =  useHistory()
-   const handledActiveProducts = () => {
-       dispatch(activeProduct(id, {
+   const handledActiveRestaurant = () => {
+       dispatch(activeRestaurant(id, {
            description, multipleImagen, price, product, productImage, category
        }))
-
-       handleClick()
+       return history.push("/add-restaurants")
    }
-
-   function handleClick() {
-    history.push("/update-product");
-  }
 
 
    const handledDelete = () => {
-    dispatch(startDeleting(id))
+    dispatch(startDeletingRestaurant(id))
 }
 
     
@@ -48,7 +42,7 @@ export default function ProductsGrids({
           <h6 className="ms-text-primary mb-0">RD$ {price}</h6>
         </div>
         <div className="new meta">
-          <p> {description} </p>
+          <p>{description} </p>
         </div>
         
         <div className="new mb-0">
@@ -62,7 +56,7 @@ export default function ProductsGrids({
           <button
             type="button"
             className="btn grid-btn mt-0 btn-sm btn-secondary"
-            onClick={handledActiveProducts}
+            onClick={handledActiveRestaurant}
           >
             Edit
           </button>
