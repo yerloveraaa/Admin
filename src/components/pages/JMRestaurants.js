@@ -15,7 +15,7 @@ class JMRestaurants extends Component {
                     <Topnavigation />
                     <Gridcontent/>
                 </main>
-                <Quickbar />
+               
             </div>
         );
     }

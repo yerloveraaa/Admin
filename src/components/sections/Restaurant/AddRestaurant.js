@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import firebase from 'firebase'
 
 import { useHistory } from "react-router-dom";
-import { startLoadingProducts, startLoadingRestaurants, startSaveProduct } from "../../action/products";
+import {  startLoadingRestaurants } from "../../action/products";
 import { useForm } from "../../hooks/useForm";
 import DatePicker from "react-datepicker";
 import * as geofirex from 'geofirex';
@@ -139,10 +139,7 @@ function AddRestaurant() {
     return (
         <div className="ms-content-wrapper">
             <div className="row">
-                <div className="col-md-8">
-                    <Breadcrumb />
-                </div>
-                <div className="col-md-8">
+                <div className="col-md-12">
                     <div className="ms-panel ms-panel-fh">
                         <div className="ms-panel-header">
                             <h6>Create New Restaurants </h6>

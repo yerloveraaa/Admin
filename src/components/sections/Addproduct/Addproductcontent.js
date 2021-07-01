@@ -69,10 +69,7 @@ function Addproductcontent() {
   return (
     <div className="ms-content-wrapper">
       <div className="row">
-        <div className="col-md-8">
-          <Breadcrumb />
-        </div>
-        <div className="col-md-8">
+        <div className="col-md-12">
           <div className="ms-panel ms-panel-fh">
             <div className="ms-panel-header">
               <h6>Create New Product </h6>

@@ -16,7 +16,6 @@ class Addproduct extends Component {
                     <Addproductcontent/>
                    
                 </main>
-                <Quickbar />
             </div>
         );
     }

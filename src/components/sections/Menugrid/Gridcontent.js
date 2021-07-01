@@ -10,13 +10,12 @@ const Gridcontent = () => {
   const dispatch = useDispatch();
 
   const { products } = useSelector((state) => state.products);
-  console.log(products)
 
   return (
     <div className="ms-content-wrapper">
       <div className="row">
     <div className="col-md-12">
-        <Breadcrumb />
+       
     <div className="row">
      {products.map((product) => (
             <ProductsGrids  key={product.id} {...product} />

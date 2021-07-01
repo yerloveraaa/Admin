@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useForm } from "../../hooks/useForm";
-import Breadcrumb from "./Breadcrumb";
+
 
 
 import { db, storage } from "../../firebase/firebaseConfig";
@@ -95,9 +95,6 @@ function UpdateToProduct() {
   return (
     <div className="ms-content-wrapper">
       <div className="row">
-        <div className="col-md-12">
-          <Breadcrumb />
-        </div>
         <div className="col-xl-6 col-md-12">
           <div className="ms-panel ms-panel-fh">
             <div className="ms-panel-header">

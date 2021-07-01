@@ -13,7 +13,6 @@ const Gridcontent = () => {
     <div className="ms-content-wrapper">
       <div className="row">
     <div className="col-md-12">
-        <Breadcrumb />
     <div className="row">
      {restaurants.map((restaurant) => (
             <RestaurantGrids  key={restaurant.id} {...restaurant} />

@@ -15,9 +15,7 @@ function AddRestaurants()  {
                 <main className="body-content">
                     <Topnavigation />
                   <AddRestaurant />
-                   
                 </main>
-                <Quickbar />
             </div>
         );
     }

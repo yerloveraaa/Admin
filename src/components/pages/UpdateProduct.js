@@ -22,7 +22,6 @@ function UpdateProduct()  {
                    {/* <UpdateToProduct /> */}
                    
                 </main>
-                <Quickbar />
             </div>
         );
     }
