@@ -73,6 +73,7 @@ const  Sidenavigation = () => {
                                 </li>
                                 <li> <Link to="/add-product" >Add Product</Link></li >
                                 <li> <Link to="/add-restaurants" >Add Restaurants</Link></li >
+                                <li> <Link to="/restaurant" >Restaurants</Link></li >
 
                                 <li> <Link to="/product-detail" >Product Detail</Link>
                                 </li >

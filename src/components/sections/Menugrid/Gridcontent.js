@@ -10,6 +10,7 @@ const Gridcontent = () => {
   const dispatch = useDispatch();
 
   const { products } = useSelector((state) => state.products);
+  console.log(products)
 
   return (
     <div className="ms-content-wrapper">

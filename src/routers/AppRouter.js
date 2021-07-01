@@ -44,6 +44,8 @@ import Invoicelist from '../components/pages/Invoicelist';
 import Materialize from '../components/pages/Materialize';
 import Menucatalogue from '../components/pages/Menucatalogue';
 import Menugrid from '../components/pages/Menugrid';
+import JMRestaurants from '../components/pages/JMRestaurants';
+
 import Menulist from '../components/pages/Menulist';
 import Modals from '../components/pages/Modals';
 import Googlechart from '../components/pages/Googlechart';
@@ -88,7 +90,7 @@ import  PrivateRoute from './PrivateRoute';
 import { PublicRoute } from './PublicRoute';
 import { login } from '../components/action/auth';
 import Preloader from '../components/layouts/Preloader';
-import { startLoadingProducts } from '../components/action/products';
+import { startLoadingProducts, startLoadingRestaurants } from '../components/action/products';
 
 
 
@@ -112,6 +114,8 @@ import { startLoadingProducts } from '../components/action/products';
                 setIsLoggedIn( true);
 
                 dispatch(  startLoadingProducts( user.uid ) );
+                dispatch(  startLoadingRestaurants() );
+
 
             } else {
                 setIsLoggedIn( false );
@@ -316,6 +320,11 @@ import { startLoadingProducts } from '../components/action/products';
                 <PrivateRoute 
                 path="/menu-grid" 
                 component={Menugrid}
+                isAuthenticated={ isLoggedIn }
+                />
+                <PrivateRoute 
+                path="/restaurant" 
+                component={JMRestaurants}
                 isAuthenticated={ isLoggedIn }
                 />
                 <PrivateRoute 

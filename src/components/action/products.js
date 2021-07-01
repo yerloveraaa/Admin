@@ -1,7 +1,7 @@
 import { db } from "../firebase/firebaseConfig"
 import { types } from "../types/types"
 
-import { loadProducts } from '../helpers/loadProducts'
+import { loadProducts, loadRestaurants } from '../helpers/loadProducts'
 
 export const startNewProducts = () => {
     return async( dispatch, getState ) => {
@@ -45,6 +45,18 @@ export const setProducts = ( products ) => ({
 });
 
 
+export const startLoadingRestaurants = () => {
+    return async( dispatch ) => {
+        const restaurants = await  loadRestaurants();
+        dispatch( setRestaurants( restaurants ) );
+    }
+}
+
+export const setRestaurants = ( restaurants ) => ({
+    type: types.restaurantLoad,
+    payload: restaurants
+});
+
 
 export const startDeleting = ( id ) => {
     return async( dispatch, getState ) => {
@@ -54,12 +66,28 @@ export const startDeleting = ( id ) => {
     }
 }
 
+export const startDeletingRestaurant = ( id ) => {
+    return async( dispatch, getState ) => {
+        await db.doc(`restaurants/${id}`).delete();
+        dispatch( deleteRestaurants(id) );
+    }
+}
+
+
 
 export const activeProduct = ( id, product ) => ({
     type: types.productActive,
     payload: {
         id,
         ...product
+    }
+});
+
+export const activeRestaurant = ( id, restaurant ) => ({
+    type: types.restaurantActive,
+    payload: {
+        id,
+        ...restaurant
     }
 });
 
@@ -73,7 +101,6 @@ export const startSaveProduct = (product) => {
         // }if(!product.multipleImagen){
         //     delete product.multipleImagen;
         // }
-        
         const productToFirestore = {...product}
         delete productToFirestore.id;
 
@@ -127,5 +154,10 @@ export const refreshProduct= ( id, product ) => ({
 
 export const deleteProducts= (id) => ({
     type: types.productsDelete,
+    payload: id
+});
+
+export const deleteRestaurants= (id) => ({
+    type: types.restaurantDelete,
     payload: id
 });

@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import firebase from 'firebase'
 
 import { useHistory } from "react-router-dom";
-import { startLoadingProducts, startSaveProduct } from "../../action/products";
+import { startLoadingProducts, startLoadingRestaurants, startSaveProduct } from "../../action/products";
 import { useForm } from "../../hooks/useForm";
 import DatePicker from "react-datepicker";
 import * as geofirex from 'geofirex';
@@ -111,10 +111,10 @@ function AddRestaurant() {
 
     const handledSave = async (e) => {
         e.preventDefault();
-        const data = { description, price, product, productImage, multipleImagen, createdAt, author, AuthorId,  };
-        const doc = await db.collection("santos").add({ data, position: geo.point(latitud, longitud) });
-        // dispatch(startLoadingProducts(uid));
-        // return history.push("/menu-grid");
+       
+        const doc = await db.collection("restaurants").add({ description, price, product, productImage, multipleImagen, createdAt, author, AuthorId, position: geo.point(latitud, longitud) });
+        dispatch(startLoadingRestaurants());
+        return history.push("/restaurant");
     };
 
       const style = {
@@ -310,8 +310,8 @@ function AddRestaurant() {
                                                 type="text"
                                                 selected={createdAt}
                                                 onChange={handleDateChange}
-                                                className="form-control w-100 "
-                                                showTimeSelect
+                                                className="form-control "
+                                                // showTimeSelect
                                                 dateFormat="Pp"
                                             />
                                             <div className="valid-feedback">Looks good!</div>
@@ -343,7 +343,7 @@ function AddRestaurant() {
                                             type="number"
                                             className="form-control"
                                             id="longitud"
-                                            placeholder="$10"
+                                            placeholder=" -70.66733836883432"
                                             name="longitud"
                                             value={longitud}
                                             onChange={handleInputChange}
@@ -359,7 +359,7 @@ function AddRestaurant() {
                                                 type="number"
                                                 className="form-control"
                                                 id="price"
-                                                placeholder="$10"
+                                                placeholder="19.424041154954804,"
                                                 name="latitud"
                                                 value={latitud}
                                                 onChange={handleInputChange}

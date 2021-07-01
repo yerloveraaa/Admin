@@ -61,7 +61,7 @@ function Addproductcontent() {
   const handledSave = async (e) => {
     e.preventDefault();
     const data = { category, description, price, product,  productImage,  multipleImagen };
-    const doc = await db.collection(`${uid}/journal/products`).add({data, createdAt: firebase.firestore.Timestamp.fromDate(new Date())});
+    const doc = await db.collection(`${uid}/journal/products`).add(data);
     dispatch(  startLoadingProducts( uid ) );
     return handleClick()
   };
@@ -211,6 +211,7 @@ function Addproductcontent() {
                         randomizeFilename
                         storageRef={storage.ref("productos")}
                         onUploadSuccess={handleUploadSuccessMultiple}
+                        multiple
                    
                       />
                       <label
