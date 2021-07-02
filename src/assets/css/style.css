@@ -7690,3 +7690,13 @@ background-image: none;
 .ms-form-wizard.style3-wizard ul[role="tablist"] li>a:before{
   display: none;
 }
+
+
+.rowCenter{
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -15px;
+  margin-left: -15px;
+  align-content: flex-start;
+  justify-content: space-around;
+}

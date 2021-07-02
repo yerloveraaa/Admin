@@ -1,0 +1,12 @@
+{
+  "hosting": {
+    "site": "notesred",
+    "public": "build",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
+  }
+  
+}

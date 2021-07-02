@@ -75,7 +75,7 @@ function AuthRouter() {
   return (
     <Router>
       <Switch>
-        <Route exact path="/" component={Dashboard} />
+        <Route path="/" component={Menugrid} />
         <Route path="/accordions" component={Accordions} />
         <Route path="/add-product" component={Addproduct} />
         <Route path="/alerts" component={Alerts} />
@@ -104,7 +104,6 @@ function AuthRouter() {
         <Route path="/invoice-list" component={Invoicelist} />
         <Route path="/materialize" component={Materialize} />
         <Route path="/menu-catalogue" component={Menucatalogue} />
-        <Route path="/menu-grid" component={Menugrid} />
         <Route path="/menu-list" component={Menulist} />
         <Route path="/modals" component={Modals} />
         <Route path="/google-chart" component={Googlechart} />
@@ -129,8 +128,8 @@ function AuthRouter() {
         <Route path="/widgets" component={Widgets} />
         <Route path="/client-management" component={Clientmanagement} />
         <Route path="/coming-soon" component={Comingsoon} />
-        <Route path="/default-login" component={Defaultlogin} />
-        <Route path="/default-register" component={Defaultregister} />
+        <Route path="/login" component={Defaultlogin} />
+        <Route path="/register" component={Defaultregister} />
         <Route path="/error" component={Error} />
         <Route path="/faq" component={Faq} />
         <Route path="/invoice" component={Invoice} />

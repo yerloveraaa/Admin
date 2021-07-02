@@ -139,7 +139,7 @@ import { startLoadingProducts, startLoadingRestaurants } from '../components/act
             <Switch>
 
                 <PublicRoute
-                path="/default-login"
+                path="/login"
                 component={Defaultlogin}
                 isAuthenticated={ isLoggedIn }
                 />
@@ -317,11 +317,11 @@ import { startLoadingProducts, startLoadingRestaurants } from '../components/act
                 component={Menucatalogue}
                 isAuthenticated={ isLoggedIn }
                 />
-                <PrivateRoute 
+                {/* <PrivateRoute 
                 path="/menu-grid" 
                 component={Menugrid}
                 isAuthenticated={ isLoggedIn }
-                />
+                /> */}
                 <PrivateRoute 
                 path="/restaurant" 
                 component={JMRestaurants}
@@ -449,7 +449,7 @@ import { startLoadingProducts, startLoadingRestaurants } from '../components/act
                 />
                
                 <PublicRoute 
-                path="/default-register" 
+                path="/register" 
                 component={Defaultregister}
                 isAuthenticated={ isLoggedIn }
                 />
@@ -509,10 +509,10 @@ import { startLoadingProducts, startLoadingRestaurants } from '../components/act
                     exact
                     isAuthenticated={ isLoggedIn }
                     path=""
-                    component={ Dashboard }
+                    component={ Menugrid}
                  />
 
-                <Redirect to="/default-login" />
+                <Redirect to="/login" />
             </Switch>
         </Router>
       )

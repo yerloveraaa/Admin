@@ -162,7 +162,7 @@ export default function Content() {
                                 </div>
                             </div> */}
                             <button className="btn btn-primary mt-4 d-block w-100" type="submit">Create Account</button>
-                            <p className="mb-0 mt-3 text-center">Already have an account? <Link className="btn-link" to="/default-login">Login</Link> </p>
+                            <p className="mb-0 mt-3 text-center">Already have an account? <Link className="btn-link" to="/login">Login</Link> </p>
                         </form>
                     </div>
                 </div>
