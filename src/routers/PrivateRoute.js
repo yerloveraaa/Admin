@@ -15,7 +15,7 @@ import { Route, Redirect } from 'react-router-dom';
             component={ (props) => (
                 ( isAuthenticated )
                     ? ( <Component { ...props } /> )
-                    : ( <Redirect to="/default-login" /> )
+                    : ( <Redirect to="/login" /> )
             )}
         
         />

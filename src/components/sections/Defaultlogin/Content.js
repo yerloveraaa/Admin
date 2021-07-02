@@ -81,12 +81,12 @@ export default function Content() {
                                 <input className="form-check-input" type="checkbox" defaultValue /> <i className="ms-checkbox-check" />
                             </label> <span> Remember Password </span>
                             <label className="d-block mt-3">
-                                <Link to="/default-login" className="btn-link" onClick={handleShow1}>Forgot Password?</Link>
+                                <Link to="/login" className="btn-link" onClick={handleShow1}>Forgot Password?</Link>
                             </label>
                         </div>
                         <button className="btn btn-primary mt-4 d-block w-100" type="submit">Sign In</button>
                         <p className="mb-0 mt-3 text-center">Don't have an account? 
-                        <Link className="btn-link" to="/default-register">Create Account</Link>
+                        <Link className="btn-link" to="/register">Create Account</Link>
                         </p>
                     </form>
                 </div>

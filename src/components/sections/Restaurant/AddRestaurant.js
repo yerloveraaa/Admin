@@ -326,6 +326,8 @@ function AddRestaurant() {
                                                 placeholder={name}
                                                 value={name}
                                                 name="Author"
+                                                onChange={handleDateChange}
+                                                disabled
                                                 required
 
                                             />

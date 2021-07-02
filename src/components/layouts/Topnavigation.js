@@ -77,12 +77,12 @@ const Topnavigation = () => {
                                  className="dropdown-menu-footer"
                                  onClick={handleLogout}
                                 >
-                                    <Link 
+                                    <div
                                    
                                     className="media fs-14 p-2" 
                                    > <span><i className="flaticon-shut-down mr-2" /> 
                                     Logout</span>
-                                    </Link>
+                                    </div>
                                 </div>
                             </Dropdown.Menu>
                         </Dropdown>
