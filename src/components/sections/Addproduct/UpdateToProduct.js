@@ -94,8 +94,8 @@ function UpdateToProduct() {
 
   return (
     <div className="ms-content-wrapper">
-      <div className="row">
-        <div className="col-xl-6 col-md-12">
+      <div className="rowCenter">
+        <div className=" col-md-8">
           <div className="ms-panel ms-panel-fh">
             <div className="ms-panel-header">
               <h6>Update Product </h6>
