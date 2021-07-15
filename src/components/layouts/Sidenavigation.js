@@ -1,13 +1,11 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom'
-import $ from 'jquery';
 import Scrollbar from 'react-perfect-scrollbar'
 import 'react-perfect-scrollbar/dist/css/styles.css';
 
 import logo from '../../assets/img/costic/costic-logo-216x62.png';
 
 const  Sidenavigation = () => {
-
     return(
         <div>
             
