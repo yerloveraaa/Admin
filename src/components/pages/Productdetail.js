@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Sidenavigation from '../layouts/Sidenavigation';
 import Topnavigation from '../layouts/Topnavigation';
 import Detailcontent from '../sections/Productsdetail/Detailcontent'
-import Quickbar from '../layouts/Quickbar';
+
 
 class Productdetail extends Component {
     render() {
@@ -13,7 +13,7 @@ class Productdetail extends Component {
                     <Topnavigation />
                     <Detailcontent/>
                 </main>
-                <Quickbar />
+           
             </div>
         );
     }

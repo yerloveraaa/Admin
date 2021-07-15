@@ -13,9 +13,10 @@ import AuthRouter from './routers/AuthRouter';
 
 
 function App() {
+
   return (
     <Provider store={store}>
-      <Preloader/>
+    <Preloader/>
       < AppRouter   />
     </Provider>
   );

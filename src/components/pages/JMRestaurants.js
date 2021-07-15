@@ -4,7 +4,6 @@ import Topnavigation from '../layouts/Topnavigation';
 // import Gridcontent from '../sections/Menugrid/Gridcontent'
 import Gridcontent from '../sections/JMRestaurants/Gridcontent'
 
-import Quickbar from '../layouts/Quickbar';
 
 class JMRestaurants extends Component {
     render() {

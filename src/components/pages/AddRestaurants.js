@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import Sidenavigation from '../layouts/Sidenavigation';
 import Topnavigation from '../layouts/Topnavigation';
-import Quickbar from '../layouts/Quickbar';
 import AddRestaurant from '../sections/Restaurant/AddRestaurant';
 import { useSelector } from 'react-redux';
 
