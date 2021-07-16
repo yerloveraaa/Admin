@@ -6,7 +6,10 @@ on:
     
   # Run workflow manually
   workflow_dispatch:
-
+  
+env:
+     CI: false
+     
 jobs:
   build:
     name: Build
