@@ -4,7 +4,6 @@ import { types } from "../types/types"
 import {  loadRestaurants } from '../helpers/loadProducts';
 
 
-
 export const startLoadingRestaurants = (uid) => {
     return async( dispatch ) => {
         const restaurants = await  loadRestaurants(uid);
@@ -26,8 +25,6 @@ export const startDeletingRestaurant = ( id ) => {
         dispatch( deleteRestaurants(id) );
     }
 }
-
-
 
 
 
@@ -66,12 +63,6 @@ export const startSaveRestaurant = (restaurant) => {
     }
 
 }
-
-
-
-
-
-
 
 
 export const startRemoveImg = (productImage, index, restaurant) => {

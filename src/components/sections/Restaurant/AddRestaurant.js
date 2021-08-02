@@ -24,16 +24,14 @@ import { helpOptions } from "../../helpers/helpOptions";
 function AddRestaurant() {
     let history = useHistory();
     const dispatch = useDispatch();
+    const geo = geofirex.init(firebase);
+
+
     const { uid, name } = useSelector((state) => state.auth);
-
-
-
     const [productImage, setProductImage] = useState([]);
     const [multipleImagen, setMultipleImagen] = useState([]);
     const [createdAt, setStartDate] = useState(new Date());
-    // const [author, setAuthor] = useState(name)
     const [filters, setfilters] = useState([])
-    const geo = geofirex.init(firebase);
 
     const [formValues, handleInputChange, reset] = useForm({
         category: "",
@@ -74,12 +72,10 @@ function AddRestaurant() {
         setfilters( filters );
       
     };
-
+    // ${uid}/journal/restaurants
     const handledSave = async (e) => {
         e.preventDefault();
-        // createdAt, author, AuthorId, position: geo.point(latitud, longitud)
-        // productImage, multipleImagen,  filters,
-        const doc = await db.collection(`${uid}/journal/restaurants`).add({ name,createdAt,description, price, product, productImage,multipleImagen, filters, position: geo.point(latitud, longitud)  });
+        const doc = await db.collection('vendors').add({ name,createdAt,description, price, product, productImage,multipleImagen, filters, position: geo.point(latitud, longitud)  });
         dispatch(startLoadingRestaurants(uid));
         return history.push("/restaurant");
     };
