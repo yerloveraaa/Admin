@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Sidenavigation from '../layouts/Sidenavigation';
 import Topnavigation from '../layouts/Topnavigation';
 // import Gridcontent from '../sections/Menugrid/Gridcontent'
-import Gridcontent from '../sections/JMRestaurants/Gridcontent'
+import Restaurants from '../sections/JMRestaurants/Restaurants'
 
 
 class JMRestaurants extends Component {
@@ -12,7 +12,7 @@ class JMRestaurants extends Component {
                 <Sidenavigation />
                 <main className="body-content">
                     <Topnavigation />
-                    <Gridcontent/>
+                    <Restaurants />
                 </main>
                
             </div>

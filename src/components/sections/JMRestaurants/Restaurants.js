@@ -1,13 +1,13 @@
 import React from "react";
 import { useSelector } from "react-redux";
 
-import Breadcrumb from "./Breadcrumb";
 import RestaurantGrids from "./RestaurantGrids";
+import Preloader from '../../layouts/Preloader'
 
-const Gridcontent = () => {
-  const {restaurants} = useSelector((state) => state.products);
+const Restaurants = () => {
+  const {restaurants} = useSelector((state) => state.restaurants);
   if(restaurants === undefined){
-    return <h1>hola mundo </h1>
+    return  <Preloader/>
   }
   return (
     <div className="ms-content-wrapper">
@@ -26,4 +26,4 @@ const Gridcontent = () => {
   );
 };
 
-export default Gridcontent;
+export default Restaurants;

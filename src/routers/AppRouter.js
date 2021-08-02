@@ -31,7 +31,9 @@ import  PrivateRoute from './PrivateRoute';
 import { PublicRoute } from './PublicRoute';
 import { login } from '../components/action/auth';
 import Preloader from '../components/layouts/Preloader';
-import { startLoadingProducts, startLoadingRestaurants } from '../components/action/products';
+import { startLoadingProducts } from '../components/action/products';
+import UpdateRestaurants from '../components/pages/UpdateRestaurants';
+import { startLoadingRestaurants } from '../components/action/restaurants';
 
 
 
@@ -53,9 +55,8 @@ import { startLoadingProducts, startLoadingRestaurants } from '../components/act
             if ( user?.uid ) {
                 dispatch( login( user.uid, user.displayName ) );
                 setIsLoggedIn( true);
-
                 dispatch(  startLoadingProducts( user.uid ) );
-                dispatch(  startLoadingRestaurants() );
+                dispatch(  startLoadingRestaurants(user.uid) );
 
 
             } else {
@@ -109,6 +110,13 @@ import { startLoadingProducts, startLoadingRestaurants } from '../components/act
                 component={JMRestaurants}
                 isAuthenticated={ isLoggedIn }
                 />
+
+                <PrivateRoute 
+                path="/update-restaurant" 
+                component={UpdateRestaurants}
+                isAuthenticated={ isLoggedIn }
+                />
+
                 <PrivateRoute 
                 path="/menu-list" 
                 component={Menulist}
