@@ -1,7 +1,7 @@
 import { db } from "../firebase/firebaseConfig"
 import { types } from "../types/types"
 
-import { loadProducts, loadRestaurants } from '../helpers/loadProducts'
+import { loadProducts } from '../helpers/loadProducts'
 
 export const startNewProducts = () => {
     return async( dispatch, getState ) => {
@@ -45,17 +45,17 @@ export const setProducts = ( products ) => ({
 });
 
 
-export const startLoadingRestaurants = () => {
-    return async( dispatch ) => {
-        const restaurants = await  loadRestaurants();
-        dispatch( setRestaurants( restaurants ) );
-    }
-}
+// export const startLoadingRestaurants = () => {
+//     return async( dispatch ) => {
+//         const restaurants = await  loadRestaurants();
+//         dispatch( setRestaurants( restaurants ) );
+//     }
+// }
 
-export const setRestaurants = ( restaurants ) => ({
-    type: types.restaurantLoad,
-    payload: restaurants
-});
+// export const setRestaurants = ( restaurants ) => ({
+//     type: types.restaurantLoad,
+//     payload: restaurants
+// });
 
 
 export const startDeleting = ( id ) => {
@@ -66,12 +66,12 @@ export const startDeleting = ( id ) => {
     }
 }
 
-export const startDeletingRestaurant = ( id ) => {
-    return async( dispatch, getState ) => {
-        await db.doc(`restaurants/${id}`).delete();
-        dispatch( deleteRestaurants(id) );
-    }
-}
+// export const startDeletingRestaurant = ( id ) => {
+//     return async( dispatch, getState ) => {
+//         await db.doc(`restaurants/${id}`).delete();
+//         dispatch( deleteRestaurants(id) );
+//     }
+// }
 
 
 
@@ -83,13 +83,13 @@ export const activeProduct = ( id, product ) => ({
     }
 });
 
-export const activeRestaurant = ( id, restaurant ) => ({
-    type: types.restaurantActive,
-    payload: {
-        id,
-        ...restaurant
-    }
-});
+// export const activeRestaurant = ( id, restaurant ) => ({
+//     type: types.restaurantActive,
+//     payload: {
+//         id,
+//         ...restaurant
+//     }
+// });
 
 
 export const startSaveProduct = (product) => {

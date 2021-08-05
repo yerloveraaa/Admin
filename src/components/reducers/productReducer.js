@@ -29,13 +29,13 @@ export const productReducer = (state = initialState, action) => {
         },
       };
 
-      case types.restaurantActive:
-        return {
-          ...state,
-          active: {
-            ...action.payload,
-          },
-        };
+      // case types.restaurantActive:
+      //   return {
+      //     ...state,
+      //     active: {
+      //       ...action.payload,
+      //     },
+      //   };
 
     case types.productAddNew:
       return {
@@ -49,11 +49,11 @@ export const productReducer = (state = initialState, action) => {
         products: [...action.payload],
       };
 
-      case types.restaurantLoad:
-        return {
-          ...state,
-         restaurants : [...action.payload],
-        };
+      // case types.restaurantLoad:
+      //   return {
+      //     ...state,
+      //    restaurants : [...action.payload],
+      //   };
 
     case types.productsUpdated:
       return {
@@ -62,6 +62,7 @@ export const productReducer = (state = initialState, action) => {
           product.id === action.payload.id ? action.payload.product : product
         ),
       };
+
     case types.productsDelete:
       return {
         ...state,
@@ -71,14 +72,14 @@ export const productReducer = (state = initialState, action) => {
         ),
       };
 
-      case types.restaurantDelete:
-        return {
-          ...state,
-          active: null,
-          restaurants: state.restaurants.filter(
-            (restaurant) => restaurant.id !== action.payload
-          ),
-        };
+      // case types.restaurantDelete:
+      //   return {
+      //     ...state,
+      //     active: null,
+      //     restaurants: state.restaurants.filter(
+      //       (restaurant) => restaurant.id !== action.payload
+      //     ),
+      //   };
 
     case types.notesLogoutCleaning:
       return {
