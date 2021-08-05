@@ -23,10 +23,10 @@ const auth = firebase.auth;
 const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
 
 
-if (window.location.hostname === "localhost") {
-  db.useEmulator('localhost', 8082);
-  auth().useEmulator('http://localhost:9099/', { disableWarnings: true });
-}
+// if (window.location.hostname === "localhost") {
+//   db.useEmulator('localhost', 8083);
+//   auth().useEmulator('http://localhost:9099/', { disableWarnings: true });
+// }
 
 export {
     db,

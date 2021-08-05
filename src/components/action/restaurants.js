@@ -21,7 +21,7 @@ export const setRestaurants = ( restaurants ) => ({
 export const startDeletingRestaurant = ( id ) => {
     return async( dispatch, getState ) => {
         const uid = getState().auth.uid;
-        await db.doc(`${ uid }/journal/restaurants/${ id }`).delete();
+        await db.doc(`vendors/${ id }`).delete();
         dispatch( deleteRestaurants(id) );
     }
 }
@@ -45,33 +45,35 @@ export const activeRestaurant = ( id, restaurant ) => ({
 
 
 export const startSaveRestaurant = (restaurant) => {
-    return async (dispatch, getState) => {
-        const {uid} = getState().auth;
+    return async (dispatch) => {
+        // const {uid} = getState().auth;
 
         if(!restaurant.productImage){
             delete restaurant.productImage
         }if(!restaurant.multipleImagen){
-            delete restaurant.multipleImagen;
+            delete restaurant.multipleImagen
+        }if(!restaurant.name){
+            delete restaurant.name
         }
 
 
         const restaurantToFirestore = {...restaurant}
         delete restaurantToFirestore.id;
 
-        await db.doc(`${uid}/journal/restaurants/${restaurant.id}`).update(restaurantToFirestore);
-        dispatch( refreshRestaurant(restaurant.id, restaurantToFirestore ))
+        // ${uid}/journal/restaurants/${restaurant.id}
+       
+        await db.doc(`vendors/${restaurant.id}`).update(restaurantToFirestore);
+        dispatch( refreshRestaurant(restaurant.id,restaurantToFirestore))
     }
 
 }
 
 
-export const startRemoveImg = (productImage, index, restaurant) => {
+export const startRemoveImg = (productImage, restaurant) => {
     return async (dispatch, getState) => {
         const {uid} = getState().auth;
-        productImage.splice(index, 1)
-        console.log(productImage)
         const restaurantToFirestore = {...restaurant}
-        await db.doc(`${uid}/journal/restaurants/${restaurant.id}`).update(restaurantToFirestore);
+        await db.doc(`vendors/${restaurant.id}`).update(restaurantToFirestore);
         dispatch(refreshRestaurant(restaurant.id, restaurantToFirestore))
     }
 
@@ -83,7 +85,7 @@ export const  startRemoveMultiple = (multipleImagen, index, restaurant) => {
         multipleImagen.splice(index, 1)
         console.log(multipleImagen)
         const restaurantToFirestore = {...restaurant}
-        await db.doc(`${ uid }/journal/restaurants/${ restaurant.id }`).update(restaurantToFirestore);
+        await db.doc(`vendors/${restaurant.id}`).update(restaurantToFirestore);
         dispatch(refreshRestaurant(restaurant.id,restaurantToFirestore))
     }
 

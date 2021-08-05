@@ -16,7 +16,8 @@ export const loadProducts = async ( uid ) => {
 }
 
 export const loadRestaurants = async (uid) => {
-    const restaurantsSnap = await db.collection(`${uid}/journal/restaurants`).get();
+    // `${uid}/journal/restaurants`
+    const restaurantsSnap = await db.collection("vendors").get();
     const restaurants = [];
     restaurantsSnap.forEach( snapChildren => {
         restaurants.push({

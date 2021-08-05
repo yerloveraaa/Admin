@@ -3,6 +3,8 @@ import { db, storage } from "../../firebase/firebaseConfig";
 import FileUploader from "react-firebase-file-uploader";
 import { useDispatch, useSelector } from "react-redux";
 import firebase from 'firebase'
+import { v4 as uuidv4 } from "uuid";
+
 
 import { useHistory } from "react-router-dom";
 import {  startLoadingRestaurants } from "../../action/restaurants";
@@ -21,15 +23,20 @@ import { style } from "../../helpers/styles";
 import { helpOptions } from "../../helpers/helpOptions";
 
 
+
+
+
+
 function AddRestaurant() {
     let history = useHistory();
     const dispatch = useDispatch();
     const geo = geofirex.init(firebase);
 
 
-    const { uid, name } = useSelector((state) => state.auth);
-    const [productImage, setProductImage] = useState([]);
-    const [multipleImagen, setMultipleImagen] = useState([]);
+
+    const { uid: author, name: authorName } = useSelector((state) => state.auth);
+    const [photo, setphoto] = useState();
+    const [photos, setphotos] = useState([]);
     const [createdAt, setStartDate] = useState(new Date());
     const [filters, setfilters] = useState([])
 
@@ -37,14 +44,19 @@ function AddRestaurant() {
         category: "",
         description: "",
         price: "",
-        product: "",
+        title: "",
+        address: "",
         lat: "",
         longitud: "",
         latitud: "",
         city: ""
     });
 
-    const {  description, price, product, longitud, latitud} = formValues;
+    const {  description, price, title, longitud, latitud, address} = formValues;
+
+    const ref = firebase.firestore().collection("vendors");
+
+ 
 
 
     const handleUploadSuccess = async (filename) => {
@@ -52,16 +64,19 @@ function AddRestaurant() {
             .ref("productos")
             .child(filename)
             .getDownloadURL();
-        setProductImage((productImage) => [...productImage, downloadURL]);
+        setphoto(downloadURL);
 
     };
+
+
+
 
     const handleUploadSuccessMultiple = async (filename) => {
         let downloadURL = await storage
             .ref("productos")
             .child(filename)
             .getDownloadURL();
-        setMultipleImagen((multipleImagen) => [...multipleImagen, downloadURL]);
+        setphotos((photos) => [...photos, downloadURL]);
     };
 
     const handleDateChange = (date) => {
@@ -75,13 +90,28 @@ function AddRestaurant() {
     // ${uid}/journal/restaurants
     const handledSave = async (e) => {
         e.preventDefault();
-        const doc = await db.collection('vendors').add({ name,createdAt,description, price, product, productImage,multipleImagen, filters, position: geo.point(latitud, longitud)  });
-        dispatch(startLoadingRestaurants(uid));
+        const doc = await db.collection('vendors').add({ address,authorName,  author,createdAt,description, price,title, photo,photos, filters, location: geo.point(latitud, longitud)  }).
+        console.log('hola mundo ', doc.id)
+        dispatch(startLoadingRestaurants( author));
         return history.push("/restaurant");
     };
 
 
-     
+    const handleSaveToRestaurants = (vendor) => {
+        ref
+            .doc(vendor.id)
+            .set(vendor)
+            .catch((err) => {
+              console.error(err);
+            });
+
+            dispatch(startLoadingRestaurants( author));
+            return history.push("/restaurant");
+              
+          }
+
+
+
 
   
     return (
@@ -90,10 +120,10 @@ function AddRestaurant() {
                 <div className="col-md-8">
                     <div className="ms-panel ms-panel-fh">
                         <div className="ms-panel-header">
-                            <h6>Create New Restaurants </h6>
+                            <h6 >Create New Restaurants </h6>
                         </div>
                         <div className="ms-panel-body">
-                            <form onSubmit={handledSave}>
+                        
                                 <div className="form-row">
                                     <div className="col-md-12 mb-3">
                                         <label htmlFor="product">Restaurants Name</label>
@@ -101,10 +131,27 @@ function AddRestaurant() {
                                             <input
                                                 type="text"
                                                 className="form-control"
-                                                id="product"
+                                                id="title"
                                                 placeholder="Restaurants Name"
-                                                name="product"
-                                                value={product}
+                                                name="title"
+                                                value={title}
+                                                onChange={handleInputChange}
+                                                required
+
+                                            />
+                                            <div className="valid-feedback">Looks good!</div>
+                                        </div>
+                                    </div>
+                                    <div className="col-md-12 mb-3">
+                                        <label htmlFor="product">Restaurants Address</label>
+                                        <div className="input-group">
+                                            <input
+                                                type="text"
+                                                className="form-control"
+                                                id="address"
+                                                placeholder="337 Essex St, Lawrence, MA 01840"
+                                                name="address"
+                                                value={address}
                                                 onChange={handleInputChange}
                                                 required
 
@@ -167,12 +214,12 @@ function AddRestaurant() {
                                         </div>
                                     </div>
                                     <div className="col-md-12 mb-3 ">
-                                        <label htmlFor="productImage">Cover Photo</label>
+                                        <label htmlFor="photo">Cover Photo</label>
                                         <div className="custom-file">
                                             <FileUploader
                                                 accept="image/*"
-                                                id="productImage"
-                                                name="productImage"
+                                                id="photo"
+                                                name="photo"
                                                 className="custom-file-input"
                                                 randomizeFilename
                                                 storageRef={storage.ref("productos")}
@@ -180,7 +227,7 @@ function AddRestaurant() {
                                             />
                                             <label
                                                 className="JMcustom-file-label"
-                                                htmlFor="productImage"
+                                                htmlFor="photo"
                                             >
                                                 Upload Images...
                                             </label>
@@ -190,29 +237,25 @@ function AddRestaurant() {
                                         </div>
                                     </div>
                                     <div className="col-md-12 mb-3">
-                                        {productImage.length > 0 && (
+                                        {photo?.length > 0 && (
                                             <div className="d-block mb-4 h-100">
-                                                {productImage.map((downloadURL, i) => {
-                                                    return (
+                                              
                                                         <img
                                                             className="img-fluid img-thumbnail"
-                                                            key={i}
-                                                            src={downloadURL}
+                                                            src={photo}
                                                             width="304"
                                                             height="236"
                                                         />
-                                                    );
-                                                })}
                                             </div>
                                         )}
                                     </div>
                                     <div className="col-md-12 mb-3">
-                                        <label htmlFor="multipleImagen">Photos</label>
+                                        <label htmlFor="photos">Photos</label>
                                         <div className="custom-file">
                                             <FileUploader
                                                 accept="image/*"
-                                                id="multipleImagen"
-                                                name="multipleImagen"
+                                                id="photos"
+                                                name="photos"
                                                 randomizeFilename
                                                 storageRef={storage.ref("productos")}
                                                 onUploadSuccess={handleUploadSuccessMultiple}
@@ -220,7 +263,7 @@ function AddRestaurant() {
                                             />
                                             <label
                                                 className="JMcustom-file-label"
-                                                htmlFor="multipleImagen"
+                                                htmlFor="photos"
                                             >
                                                 Upload Images...
                                             </label>
@@ -230,9 +273,9 @@ function AddRestaurant() {
                                         </div>
                                     </div>
                                     <div className="col-md-12 mb-3">
-                                        {multipleImagen.length > 0 && (
+                                        {photos.length > 0 && (
                                             <div className="d-block mb-4 h-100">
-                                                {multipleImagen.map((downloadURL, i) => {
+                                                {photos.map((downloadURL, i) => {
                                                     return (
                                                         <img
                                                             className="img-fluid img-thumbnail"
@@ -271,10 +314,10 @@ function AddRestaurant() {
                                                 type="text"
                                                 className="form-control"
                                                 id="Author"
-                                                placeholder={name}
-                                                value={name}
+                                                placeholder="Author Name"
+                                                value={authorName}
                                                 name="Author"
-                                                onChange={handleDateChange}
+                                                onChange={handleChange}
                                                 disabled
                                                 required
 
@@ -317,32 +360,16 @@ function AddRestaurant() {
                                         </div>
                                     </div>
 
-                                    {/* <div className="col-md-6 mb-3">
-                                        <label htmlFor="city">City</label>
-                                        <div className="input-group">
-                                            <input
-                                                type="text"
-                                                className="form-control"
-                                                id="city"
-                                                placeholder="$10"
-                                                name="city"
-                                                value={city}
-                                                onChange={handleInputChange}
-                                                required
-
-                                            />
-                                            <div className="invalid-feedback">Price</div>
-                                        </div>
-                                    </div> */}
+                                   
 
                                     <button
                                         className="btn btn-block btn-info"
-                                        type="submit"
+                                       onClick={() => handleSaveToRestaurants({ id: uuidv4(), address,authorName,  author,createdAt,description, price,title, photo,photos, filters, location: geo.point(latitud, longitud)  })}
                                     >
                                         Create Restaurant
                                     </button>
                                 </div>
-                            </form>
+                           
                         </div>
                     </div>
                 </div>

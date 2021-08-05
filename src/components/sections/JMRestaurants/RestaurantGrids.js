@@ -6,14 +6,15 @@ import { activeRestaurant, startDeletingRestaurant } from "../../action/restaura
 export default function RestaurantGrids({
   id,
   description,
-  multipleImagen,
+  photos,
   price,
-  product,
-  productImage,
+  title,
+  photo,
   filters,
-  position,
-  name,
-  createdAt
+  location,
+  createdAt,
+  authorName,  
+  author
 
 }) {
 
@@ -22,7 +23,7 @@ export default function RestaurantGrids({
   let history = useHistory()
   const handledActiveRestaurant = () => {
     dispatch(activeRestaurant(id, {
-      description, price, product, multipleImagen, productImage,  filters, position, name, createdAt}))
+      description, price, title, photos, photo,  filters, location,  createdAt, authorName,  author}))
     return history.push("/update-restaurant")
   }
 
@@ -38,11 +39,11 @@ export default function RestaurantGrids({
     <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 ">
       <div className="ms-card">
         <div className="ms-card-img">
-          <img src={productImage} alt="card_img" />
+          <img src={photo} alt="card_img" />
         </div>
         <div className="ms-card-body">
           <div className="new">
-            <h6 className="mb-0">{product} </h6>
+            <h6 className="mb-0">{title} </h6>
             <h6 className="ms-text-primary mb-0">RD$ {price}</h6>
           </div>
           <div className="new meta">

@@ -29,21 +29,21 @@ function UpdateToRestaurants() {
     let history = useHistory();
     const geo = geofirex.init(firebase);
 
-    const { uid, name } = useSelector((state) => state.auth);
+    const { uid } = useSelector((state) => state.auth);
     const { active: Restaurant } = useSelector(state => state.restaurants)
 
     const activeId = useRef(Restaurant.id)
 
-    const [productImage, setProductImage] = useState(Restaurant.productImage);
-    const [multipleImagen, setMultipleImagen] = useState(Restaurant.multipleImagen);
+    const [photo, setphoto] = useState(Restaurant.photo);
+    const [photos, setphotos] = useState(Restaurant.photos);
     const [filters, setfilters] = useState(Restaurant.filters);
     const [createdAtTime, setCreatedAt] = useState(Restaurant.createdAt);
-    const date = createdAtTime.toDate().toLocaleString('en-US')
-    const [createdAt, setStartDate] = useState();
+    // const date = createdAtTime.toDate().toLocaleString('en-US')
+    // const [createdAt, setStartDate] = useState();
 
 
-    const [position, setPosition] = useState(Restaurant.position);
-    const {_lat, _long} = position.geopoint;
+    const [location, setlocation] = useState(Restaurant.location);
+    const {_lat, _long} = location.geopoint;
     const [latitud, setLatitud] =  useState(_lat)
     const [longitud, setLongitud] =  useState(_long)
 
@@ -55,7 +55,9 @@ function UpdateToRestaurants() {
     let {
         description,
         price,
-        product,
+       title,
+       authorName,  
+       author
     } = formValues;
 
 
@@ -64,7 +66,7 @@ function UpdateToRestaurants() {
             reset(Restaurant);
             activeId.current = Restaurant.id;
         }
-    }, [Restaurant, productImage, reset]);
+    }, [Restaurant, photo, reset]);
 
 
     useEffect(() => {
@@ -73,7 +75,7 @@ function UpdateToRestaurants() {
 
     const handleDateChange = (date) => {
 
-        setStartDate(date)
+        // setStartDate(date)
     }
 
 
@@ -82,12 +84,10 @@ function UpdateToRestaurants() {
       
     };
     const handleChangeGeolong = e => {
-        console.log(e.target.value)
         setLongitud(e.target.value)
     
     }
     const handleChangeGeolat = e => {
-        console.log(e.target.value)
         setLatitud(e.target.value)
     
     }
@@ -97,7 +97,7 @@ function UpdateToRestaurants() {
           .ref("productos")
           .child(filename)
           .getDownloadURL();
-        setMultipleImagen(( multipleImagen) => [... multipleImagen, downloadURL]);
+        setphotos(( photos) => [... photos, downloadURL]);
       };
 
 
@@ -106,23 +106,23 @@ function UpdateToRestaurants() {
             .ref("productos")
             .child(filename)
             .getDownloadURL();
-        setProductImage((productImage) => [...productImage, downloadURL]);
+        setphoto(downloadURL );
 
     };
     const handledSave = () => {
-        const restaurant = { ...Restaurant,productImage, multipleImagen, filters, position: geo.point(latitud, longitud)  }
+        const restaurant = {...Restaurant, photo, photos, filters, location: geo.point(latitud, longitud)}
         dispatch(startSaveRestaurant(restaurant))
         return history.push('/restaurant')
     };
 
 
-    const deleteImgFirebase = (index) => {
-        let fileRef = storage.refFromURL(index);
+    const deleteImgFirebase = (photo) => {
+        let fileRef = storage.refFromURL(photo);
         fileRef.delete().then(function () {
-          console.log("File Deleted")
+          setphoto('')
         }).catch(function (error) {
         });
-        dispatch(startRemoveImg(productImage, index, Restaurant ))
+        dispatch(startRemoveImg(photo,  Restaurant ))
       };
     
       const deleteImgMultiple = (index) => {
@@ -132,7 +132,7 @@ function UpdateToRestaurants() {
         }).catch(function (error) {
     
         });
-        dispatch(startRemoveMultiple(multipleImagen, index, Restaurant))   
+        dispatch(startRemoveMultiple(photos, index, Restaurant))   
       };
 
     return (
@@ -152,10 +152,10 @@ function UpdateToRestaurants() {
                                         <input
                                             type="text"
                                             className="form-control"
-                                            id="product"
-                                            placeholder="Restaurants Name"
-                                            name="product"
-                                            value={product}
+                                            id="title"
+                                            placeholder="Restaurants title"
+                                            name="title"
+                                            value={title}
                                             onChange={handleInputChange}
                                             required
 
@@ -168,7 +168,7 @@ function UpdateToRestaurants() {
                                         <label htmlFor="category">Select Catagory</label>
                                         <div className="input-group">
                                             <Select
-                                                className="w-100 "                                                
+                                                className="w-100"        
                                                 isMulti
                                                 value={filters}
                                                 options={helpOptions}
@@ -220,12 +220,12 @@ function UpdateToRestaurants() {
                                 </div>
 
                                 <div className="col-md-12 mb-3 ">
-                                        <label htmlFor="productImage">Cover Photo</label>
+                                        <label htmlFor="photo">Cover Photo</label>
                                         <div className="custom-file">
                                             <FileUploader
                                                 accept="image/*"
-                                                id="productImage"
-                                                name="productImage"
+                                                id="photo"
+                                                name="photo"
                                                 className="custom-file-input"
                                                 randomizeFilename
                                                 storageRef={storage.ref("productos")}
@@ -233,7 +233,7 @@ function UpdateToRestaurants() {
                                             />
                                             <label
                                                 className="JMcustom-file-label"
-                                                htmlFor="productImage"
+                                                htmlFor="photo"
                                             >
                                                 Upload Images...
                                             </label>
@@ -243,9 +243,9 @@ function UpdateToRestaurants() {
                                         </div>
                                     </div>
                                     <div className="col-md-12 mb-3">
-                                        {productImage?.length > 0 && (
+                                        {/* {photo.length > 0 && (
                                             <div className="d-block mb-4 h-100">
-                                                {productImage?.map((downloadURL, i) => {
+                                                {photo.map((downloadURL, i) => {
                                                     return (
                                                         <img
                                                             className="img-fluid img-thumbnail"
@@ -258,25 +258,40 @@ function UpdateToRestaurants() {
                                                     );
                                                 })}
                                             </div>
-                                        )}
+                                        )} */}
+
+                                        {
+                                            photo?.length > 0 && (
+                                                <div className="d-block mb-4 h-100">
+                                                <img
+                                                className="img-fluid img-thumbnail"
+                                                 src={photo}
+                                                 width="304"
+                                                 height="236"
+                                                 onClick={() => deleteImgFirebase(photo)}
+                                                />
+                                                </div>
+                                            )
+                                        }
                                     </div>
 
 
                                     <div className="col-md-12 mb-3">
-                                        <label htmlFor="multipleImagen">Photos</label>
+                                        <label htmlFor="photos">Photos</label>
                                         <div className="custom-file">
                                             <FileUploader
                                                 accept="image/*"
-                                                id="multipleImagen"
-                                                name="multipleImagen"
+                                                id="photos"
+                                                name="photos"
                                                 randomizeFilename
                                                 storageRef={storage.ref("productos")}
                                                 onUploadSuccess={handleUploadSuccessMultiple}
+                                                multiple
 
                                             />
                                             <label
                                                 className="JMcustom-file-label"
-                                                htmlFor="multipleImagen"
+                                                htmlFor="photos"
                                             >
                                                 Upload Images...
                                             </label>
@@ -286,9 +301,9 @@ function UpdateToRestaurants() {
                                         </div>
                                     </div>
                                     <div className="col-md-12 mb-3">
-                                        {multipleImagen.length > 0 && (
+                                        {photos.length > 0 && (
                                             <div className="d-block mb-4 h-100">
-                                                {multipleImagen.map((downloadURL, i) => {
+                                                {photos.map((downloadURL, i) => {
                                                     return (
                                                         <img
                                                             className="img-fluid img-thumbnail"
@@ -306,7 +321,7 @@ function UpdateToRestaurants() {
                                     </div>
 
 
-                                    <div className="col-md-6 mb-3">
+                                    {/* <div className="col-md-6 mb-3">
 
                                         <label htmlFor="product">Date</label>
                                         <div className="input-group">
@@ -324,7 +339,7 @@ function UpdateToRestaurants() {
                                             />
                                             <div className="valid-feedback">Looks good!</div>
                                         </div>
-                                    </div>
+                                    </div> */}
 
 
                                     <div className="col-md-6 mb-3">
@@ -334,10 +349,10 @@ function UpdateToRestaurants() {
                                                 type="text"
                                                 className="form-control"
                                                 id="Author"
-                                                placeholder={name}
-                                                value={name}
+                                                placeholder='Author'
+                                                value={authorName}
                                                 name="Author"
-                                                onChange={handleDateChange}
+                                                onChange={handleChange}
                                                 disabled
                                                 required
 
