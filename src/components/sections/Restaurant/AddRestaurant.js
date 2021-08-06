@@ -16,7 +16,6 @@ import * as geofirex from 'geofirex';
 import "react-datepicker/dist/react-datepicker.css";
 
 import Select from 'react-select'
-import makeAnimated from 'react-select/animated';
 
 import "./index.css"
 import { style } from "../../helpers/styles";
@@ -87,14 +86,7 @@ function AddRestaurant() {
         setfilters( filters );
       
     };
-    // ${uid}/journal/restaurants
-    const handledSave = async (e) => {
-        e.preventDefault();
-        const doc = await db.collection('vendors').add({ address,authorName,  author,createdAt,description, price,title, photo,photos, filters, location: geo.point(latitud, longitud)  }).
-        console.log('hola mundo ', doc.id)
-        dispatch(startLoadingRestaurants( author));
-        return history.push("/restaurant");
-    };
+
 
 
     const handleSaveToRestaurants = (vendor) => {
@@ -104,7 +96,6 @@ function AddRestaurant() {
             .catch((err) => {
               console.error(err);
             });
-
             dispatch(startLoadingRestaurants( author));
             return history.push("/restaurant");
               

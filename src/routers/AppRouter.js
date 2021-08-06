@@ -34,7 +34,7 @@ import Preloader from '../components/layouts/Preloader';
 import { startLoadingProducts } from '../components/action/products';
 import UpdateRestaurants from '../components/pages/UpdateRestaurants';
 import { startLoadingRestaurants } from '../components/action/restaurants';
-
+import User from '../components/pages/User';
 
 
 
@@ -108,6 +108,12 @@ import { startLoadingRestaurants } from '../components/action/restaurants';
                 <PrivateRoute 
                 path="/restaurant" 
                 component={JMRestaurants}
+                isAuthenticated={ isLoggedIn }
+                />
+
+                <PrivateRoute 
+                path="/user" 
+                component={User}
                 isAuthenticated={ isLoggedIn }
                 />
 
