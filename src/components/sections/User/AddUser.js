@@ -47,10 +47,10 @@ function AddUser() {
         phoneNumber: "",
         password: "",
         confirmPassword: "",
-        username: ''
+        
     });
 
-    const { description, firstName, lastName, email, country, phoneNumber, password, confirmPassword, username} = formValues;
+    const { description, firstName, lastName, email, country, phoneNumber, password, confirmPassword} = formValues;
 
     const ref = firebase.firestore().collection("Users");
 
@@ -103,11 +103,11 @@ function AddUser() {
 
     const handledSave = (e) => {
         e.preventDefault();
-        const newData = {firstName,lastName,email,country,phoneNumber,password,confirmPassword, username: uuidv4()}
+        const newData = {firstName,lastName,email,country,phoneNumber,password,confirmPassword, id: uuidv4(), photo, photos}
 
         console.log(newData)
         axios
-            .post('https://us-central1-jmsdevstudio.cloudfunctions.net/api/signup', newData)
+            .post('http://localhost:5001/jmsdevstudio/us-central1/api/signup', newData)
               
             .then((response) => {
                 console.log(response)
