@@ -97,8 +97,7 @@ function AddUser() {
 
         setLoding(true)
         axios
-            .post('http://localhost:5001/jmsdevstudio/us-central1/api/signup', newData)
-
+            .post('https://us-central1-jmsdevstudio.cloudfunctions.net/api/signup', newData)
             .then((response) => {
                 setLoding(false)
                 console.log(response)
