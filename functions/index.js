@@ -11,4 +11,5 @@ app.use(cors({origin: true, credentials: true}));
 app.post('/signup', signUpUser);
 
 
+
 exports.api = functions.https.onRequest(app)

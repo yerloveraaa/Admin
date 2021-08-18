@@ -8,7 +8,7 @@ import { db, storage } from "../../firebase/firebaseConfig";
 import FileUploader from "react-firebase-file-uploader";
 
 import { useHistory } from "react-router-dom";
-import { activeProduct, startDeleting, startRemoveImg,  startRemoveMultiple, startSaveProduct } from "../../action/products";
+import { activeProduct, startDeleting, startRemoveImg, startRemoveMultiple, startSaveProduct } from "../../action/products";
 
 function UpdateToProduct() {
 
@@ -18,8 +18,8 @@ function UpdateToProduct() {
   const { active: Product } = useSelector((state) => state.products);
 
 
-  const [productImage, setProductImage] = useState(Product.productImage);
-  const [multipleImagen, setMultipleImagen] = useState(Product.multipleImagen);
+  const [photo, setphoto] = useState(Product.photo);
+  const [photos, setphotos] = useState(Product.photos);
 
 
   const [formValues, handleInputChange, reset] = useForm(Product);
@@ -39,49 +39,45 @@ function UpdateToProduct() {
       reset(Product);
       activeId.current = Product.id;
     }
-  }, [Product, productImage, reset]);
+  }, [Product, photo, reset]);
 
 
   useEffect(() => {
     dispatch(activeProduct(formValues.id, { ...formValues }));
   }, [formValues, dispatch]);
 
-
   const handleUploadSuccess = async (filename) => {
     let downloadURL = await storage
-    .ref("productos")
-    .child(filename)
-    .getDownloadURL();
-    setProductImage(( multipleImagen) => [... multipleImagen, downloadURL]);
+        .ref("productos")
+        .child(filename)
+        .getDownloadURL();
+    setphoto(downloadURL );
 
-    // const url = await storage.ref("productos").child(nombre).getDownloadURL();
-    // setProductImage(url);
-  };
+};
 
   const handleUploadSuccessMultiple = async (filename) => {
     let downloadURL = await storage
       .ref("productos")
       .child(filename)
       .getDownloadURL();
-    setMultipleImagen(( multipleImagen) => [... multipleImagen, downloadURL]);
+    setphotos((photos) => [...photos, downloadURL]);
   };
 
   const handledSave = () => {
-    const producto = {...Product, productImage,  multipleImagen}
+    const producto = { ...Product, photo, photos }
     dispatch(startSaveProduct(producto));
     return history.push("/menu-grid");
   };
 
 
-  const deleteImgFirebase = (index) => {
-    let fileRef = storage.refFromURL(index);
+  const deleteImgFirebase = (photo) => {
+    let fileRef = storage.refFromURL(photo);
     fileRef.delete().then(function () {
-      console.log("File Deleted")
+      setphoto('')
     }).catch(function (error) {
     });
-    dispatch(startRemoveImg(productImage, index, Product ))
+    dispatch(startRemoveImg(photo,  Product ))
   };
-
   const deleteImgMultiple = (index) => {
     let fileRef = storage.refFromURL(index);
     fileRef.delete().then(function () {
@@ -89,7 +85,7 @@ function UpdateToProduct() {
     }).catch(function (error) {
 
     });
-    dispatch(startRemoveMultiple(multipleImagen, index, Product))   
+    dispatch(startRemoveMultiple(photos, index, Product))
   };
 
   return (
@@ -179,12 +175,12 @@ function UpdateToProduct() {
                   </div>
                 </div>
                 <div className="col-md-12 mb-3">
-                  <label htmlFor="productImage">Cover Photo</label>
+                  <label htmlFor="photo">Cover Photo</label>
                   <div className="custom-file">
                     <FileUploader
                       accept="image/*"
-                      id="productImage"
-                      name="productImage"
+                      id="photo"
+                      name="photo"
                       className="custom-file-input"
                       randomizeFilename
                       storageRef={storage.ref("productos")}
@@ -192,7 +188,7 @@ function UpdateToProduct() {
                     />
                     <label
                       className="custom-file-label"
-                      htmlFor="productImage"
+                      htmlFor="photo"
                     >
                       Upload Images...
                     </label>
@@ -203,33 +199,30 @@ function UpdateToProduct() {
                 </div>
 
                 <div className="col-md-12 mb-3">
-                {productImage.length > 0 && (
-                    <div className="d-block mb-4 h-100">
-                      {productImage.map((downloadURL, index) => {
-                        return (
-                          <img
-                            className="img-fluid img-thumbnail"
-                            key={index}
-                            src={downloadURL}
-                            width="304"
-                            height="236"
-                            onClick={() => deleteImgFirebase(downloadURL)}
-                          />
-                         
-                        );
-                      })}
-                    </div>
-                  )}
-                
+
+
+                  {
+                    photo?.length > 0 && (
+                      <div className="d-block mb-4 h-100">
+                        <img
+                          className="img-fluid img-thumbnail"
+                          src={photo}
+                          width="304"
+                          height="236"
+                          onClick={() => deleteImgFirebase(photo)}
+                        />
+                      </div>
+                    )
+                  }
                 </div>
 
                 <div className="col-md-12 mb-3">
-                  <label htmlFor="multipleImagen">Photos</label>
+                  <label htmlFor="photos">Photos</label>
                   <div className="custom-file">
                     <FileUploader
                       accept="image/*"
-                      id="multipleImagen"
-                      name="multipleImagen"
+                      id="photos"
+                      name="photos"
                       randomizeFilename
                       storageRef={storage.ref("productos")}
                       onUploadSuccess={handleUploadSuccessMultiple}
@@ -237,7 +230,7 @@ function UpdateToProduct() {
                     />
                     <label
                       className="custom-file-label"
-                      htmlFor="multipleImagen"
+                      htmlFor="photos"
                     >
                       Upload Images...
                     </label>
@@ -248,9 +241,9 @@ function UpdateToProduct() {
                 </div>
 
                 <div className="col-md-12 mb-3">
-                  {multipleImagen.length > 0 && (
+                  {photos?.length > 0 && (
                     <div className="d-block mb-4 h-100">
-                      {multipleImagen.map((downloadURL, index) => {
+                      {photos?.map((downloadURL, index) => {
                         return (
                           <img
                             className="img-fluid img-thumbnail"
@@ -260,7 +253,7 @@ function UpdateToProduct() {
                             height="236"
                             onClick={() => deleteImgMultiple(downloadURL)}
                           />
-                         
+
                         );
                       })}
                     </div>

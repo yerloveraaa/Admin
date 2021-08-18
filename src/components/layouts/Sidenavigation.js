@@ -22,6 +22,8 @@ const  Sidenavigation = () => {
                             <ul id="product" className="" aria-labelledby="product" data-parent="#side-nav-accordion">
                             <li><Link to="/restaurant" >Restaurants</Link></li>
                             <li><Link to="/menu-grid" >Products</Link></li>
+                            <li><Link to="/user-list" > User</Link></li >    
+
                             <li><Link to="/add-product" >Add Products</Link></li >
                             <li><Link to="/add-restaurants" >Add Restaurants</Link></li >
                             <li><Link to="/user" >Add User</Link></li >    

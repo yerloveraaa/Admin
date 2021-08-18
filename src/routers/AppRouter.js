@@ -19,7 +19,7 @@ import AddRestaurants from '../components/pages/AddRestaurants';
 import Menugrid from '../components/pages/Menugrid';
 import JMRestaurants from '../components/pages/JMRestaurants';
 import Menulist from '../components/pages/Menulist';
-import Restaurantlist from '../components/pages/Restaurantlist';
+
 import Defaultregister from '../components/pages/Defaultregister';
 
 
@@ -35,6 +35,9 @@ import { startLoadingProducts } from '../components/action/products';
 import UpdateRestaurants from '../components/pages/UpdateRestaurants';
 import { startLoadingRestaurants } from '../components/action/restaurants';
 import User from '../components/pages/User';
+import { startLondingUsers } from '../components/action/users';
+import UpdateUsers from '../components/pages/UpdateUsers';
+import UserList from '../components/pages/UserList';
 
 
 
@@ -57,6 +60,7 @@ import User from '../components/pages/User';
                 setIsLoggedIn( true);
                 dispatch(  startLoadingProducts( user.uid ) );
                 dispatch(  startLoadingRestaurants(user.uid) );
+                dispatch(startLondingUsers(user.uid))
 
 
             } else {
@@ -118,6 +122,12 @@ import User from '../components/pages/User';
                 />
 
                 <PrivateRoute 
+                path="/users-update" 
+                component={UpdateUsers}
+                isAuthenticated={ isLoggedIn }
+                />
+
+                <PrivateRoute 
                 path="/update-restaurant" 
                 component={UpdateRestaurants}
                 isAuthenticated={ isLoggedIn }
@@ -130,8 +140,8 @@ import User from '../components/pages/User';
                  />
                 
                 <PrivateRoute 
-                path="/restaurant-list" 
-                component={Restaurantlist}
+                path="/user-list" 
+                component={UserList}
                 isAuthenticated={ isLoggedIn } 
                 />
           

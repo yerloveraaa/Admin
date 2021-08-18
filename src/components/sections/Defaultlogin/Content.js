@@ -1,7 +1,7 @@
-import React, {useEffect, useState} from 'react'
+import React, {useState} from 'react'
 import { Link } from 'react-router-dom';
 import {useDispatch} from 'react-redux'
-import { Modal, Accordion, Card } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 import { startLoginEmailPassword } from '../../action/auth';
 import { useForm } from '../../hooks/useForm';
 
@@ -14,7 +14,7 @@ export default function Content() {
     const [show, setShow] =  useState(false);
 
     const [formValues, handledInputChange] = useForm({
-        email:'angel1@gmail.com',
+        email:'ma@gmail.com',
         password: '123456'
     })
    

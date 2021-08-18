@@ -1,5 +1,5 @@
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import validator from 'validator';
 import Swal from 'sweetalert2';
@@ -152,15 +152,7 @@ export default function Content() {
                                     </div>
                                 </div>
                             </div>
-                            {/* <div className="form-group">
-                                <div className="form-check pl-0">
-                                    <label className="ms-checkbox-wrap">
-                                        <input className="form-check-input" type="checkbox" id="invalidCheck" required />
-                                        <i className="ms-checkbox-check" />
-                                    </label>
-                                    <span> Agree to terms and conditions </span>
-                                </div>
-                            </div> */}
+                           
                             <button className="btn btn-primary mt-4 d-block w-100" type="submit">Create Account</button>
                             <p className="mb-0 mt-3 text-center">Already have an account? <Link className="btn-link" to="/login">Login</Link> </p>
                         </form>
