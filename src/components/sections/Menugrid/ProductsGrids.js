@@ -7,10 +7,10 @@ import Breadcrumb from "./Breadcrumb";
 export default function ProductsGrids({
   id,
   description,
-  multipleImagen,
+  photos,
   price,
   product,
-  productImage,
+ photo,
   category
 }) {
 
@@ -19,16 +19,13 @@ export default function ProductsGrids({
    let history =  useHistory()
    const handledActiveProducts = () => {
        dispatch(activeProduct(id, {
-           description, multipleImagen, price, product, productImage, category
+           description, photo, price, product, photos, category
        }))
 
-       handleClick()
+    return history.push("/update-product");   
    }
 
-   function handleClick() {
-    history.push("/update-product");
-  }
-
+  
 
    const handledDelete = () => {
     dispatch(startDeleting(id))
@@ -40,7 +37,7 @@ export default function ProductsGrids({
     <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 ">
     <div className="ms-card">
       <div className="ms-card-img">
-        <img src={productImage} alt="card_img" />
+        <img src={photo} alt="card_img" />
       </div>
       <div className="ms-card-body">
         <div className="new">

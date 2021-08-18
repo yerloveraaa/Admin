@@ -18,14 +18,15 @@ const  Sidenavigation = () => {
                     </div>
                     <ul className="accordion ms-main-aside fs-14" id="side-nav-accordion">
                         <li className="menu-item">
-                            <h4 className="text-center"> Admin dashboard </h4>
+                            <h4 className="text-center"> Admin Dashboard </h4>
                             <ul id="product" className="" aria-labelledby="product" data-parent="#side-nav-accordion">
                             <li><Link to="/restaurant" >Restaurants</Link></li>
                             <li><Link to="/menu-grid" >Products</Link></li>
+                            <li><Link to="/user-list" > User</Link></li >    
+
                             <li><Link to="/add-product" >Add Products</Link></li >
                             <li><Link to="/add-restaurants" >Add Restaurants</Link></li >
-                       
-                                
+                            <li><Link to="/user" >Add User</Link></li >    
                             </ul >
                         </li >
                         
