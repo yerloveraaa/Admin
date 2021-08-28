@@ -93,7 +93,7 @@ function AddUser() {
 
         setLoding(true)
         axios
-            .post(`{REACT_APP_BACKEND_URL}/signup`, newData)
+            .post(`${REACT_APP_BACKEND_URL}/signup`, newData)
             .then((response) => {
                 setLoding(false)
                 console.log(response)
