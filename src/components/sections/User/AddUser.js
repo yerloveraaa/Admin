@@ -24,8 +24,6 @@ import Swal from 'sweetalert2';
 import { finishLoading } from "../../action/ui";
 
 
-
-
 function AddUser() {
     let history = useHistory();
     const dispatch = useDispatch();
@@ -95,7 +93,7 @@ function AddUser() {
 
         setLoding(true)
         axios
-            .post('/signup', newData)
+            .post(`{REACT_APP_BACKEND_URL}/signup`, newData)
             .then((response) => {
                 setLoding(false)
                 console.log(response)
