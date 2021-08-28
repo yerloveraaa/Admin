@@ -100,7 +100,7 @@ function AddUser() {
 
         setLoding(true)
         axios
-            .post(`${env.API_URL}/signup`, newData)
+            .post('/signup', newData)
             .then((response) => {
                 setLoding(false)
                 console.log(response)
