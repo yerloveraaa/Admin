@@ -85,10 +85,6 @@
   "eslintConfig": {
     "extends": "react-app"
   },
-<<<<<<< HEAD
-
-=======
->>>>>>> 590163a602123bcfbd060a4e3b7f0815c21883a8
   "browserslist": {
     "production": [
       ">0.2%",
