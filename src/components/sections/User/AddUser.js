@@ -24,12 +24,6 @@ import Swal from 'sweetalert2';
 import { finishLoading } from "../../action/ui";
 
 
-
-
-
-
-
-
 function AddUser() {
     let history = useHistory();
     const dispatch = useDispatch();
