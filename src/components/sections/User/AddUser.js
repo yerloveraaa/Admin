@@ -23,6 +23,9 @@ import { startLondingUsers } from "../../action/users";
 import Swal from 'sweetalert2';
 import { finishLoading } from "../../action/ui";
 
+import env from "react-dotenv";
+
+
 
 
 
@@ -97,7 +100,7 @@ function AddUser() {
 
         setLoding(true)
         axios
-            .post('https://us-central1-jmsdevstudio.cloudfunctions.net/api/signup', newData)
+            .post(`${env.API_URL}/signup`, newData)
             .then((response) => {
                 setLoding(false)
                 console.log(response)
