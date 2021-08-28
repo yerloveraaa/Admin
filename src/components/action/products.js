@@ -1,7 +1,7 @@
 import { db } from "../firebase/firebaseConfig"
 import { types } from "../types/types"
 
-import { loadProducts, loadRestaurants } from '../helpers/loadProducts'
+import { loadProducts } from '../helpers/loadProducts'
 
 export const startNewProducts = () => {
     return async( dispatch, getState ) => {
@@ -45,33 +45,15 @@ export const setProducts = ( products ) => ({
 });
 
 
-export const startLoadingRestaurants = () => {
-    return async( dispatch ) => {
-        const restaurants = await  loadRestaurants();
-        dispatch( setRestaurants( restaurants ) );
-    }
-}
-
-export const setRestaurants = ( restaurants ) => ({
-    type: types.restaurantLoad,
-    payload: restaurants
-});
 
 
 export const startDeleting = ( id ) => {
-    return async( dispatch, getState ) => {
-        const uid = getState().auth.uid;
-        await db.doc(`${ uid }/journal/products/${ id }`).delete();
+    return async( dispatch) => {
+        await db.doc(`vendor_products/${ id }`).delete();
         dispatch( deleteProducts(id) );
     }
 }
 
-export const startDeletingRestaurant = ( id ) => {
-    return async( dispatch, getState ) => {
-        await db.doc(`restaurants/${id}`).delete();
-        dispatch( deleteRestaurants(id) );
-    }
-}
 
 
 
@@ -83,60 +65,62 @@ export const activeProduct = ( id, product ) => ({
     }
 });
 
-export const activeRestaurant = ( id, restaurant ) => ({
-    type: types.restaurantActive,
-    payload: {
-        id,
-        ...restaurant
-    }
-});
+
 
 
 export const startSaveProduct = (product) => {
     return async (dispatch, getState) => {
         const {uid} = getState().auth;
 
-        // if(!product.productImage){
-        //     delete product.productImage
-        // }if(!product.multipleImagen){
-        //     delete product.multipleImagen;
-        // }
+        if(!product.productImage){
+            delete product.productImage
+        }if(!product.multipleImagen){
+            delete product.multipleImagen;
+        }if(!product.description){
+            delete product.description
+        }
+
         const productToFirestore = {...product}
         delete productToFirestore.id;
+        console.log(productToFirestore)
 
-        await db.doc(`${ uid }/journal/products/${ product.id }`).update( productToFirestore );
+        await db.doc(`vendor_products/${product.id}`).update( productToFirestore );
         dispatch(refreshProduct(product.id, productToFirestore))
     }
 
 }
 
 
-export const startRemoveImg = (productImage, index, product) => {
-    return async (dispatch, getState) => {
-        const {uid} = getState().auth;
-        productImage.splice(index, 1)
-        console.log(productImage)
+// export const startRemoveImg = (photo, index, product) => {
+//     return async (dispatch, getState) => {
+
+//         const productToFirestore = {...product}
+//         await db.doc(`vendor_products/${product.id}`).update(productToFirestore);
+//         dispatch(refreshProduct(product.id, productToFirestore))
+//     }
+
+// }
+
+
+export const startRemoveImg = (photo, product) => {
+    return async (dispatch) => {
         const productToFirestore = {...product}
-        await db.doc(`${uid}/journal/products/${product.id}`).update(productToFirestore);
+        console.log(productToFirestore)
+        await db.doc(`vendor_products/${product.id}`).update(productToFirestore);
         dispatch(refreshProduct(product.id, productToFirestore))
     }
 
 }
 
-export const  startRemoveMultiple = (multipleImagen, index, product) => {
+export const  startRemoveMultiple = (photos, index, product) => {
     return async (dispatch, getState) => {
-        const {uid} = getState().auth;
-        multipleImagen.splice(index, 1)
-        console.log(multipleImagen)
+       photos.splice(index, 1)
         const productToFirestore = {...product}
-        await db.doc(`${ uid }/journal/products/${ product.id }`).update(productToFirestore);
+        await db.doc(`vendor_products/${product.id}`).update(productToFirestore);
         dispatch(refreshProduct(product.id, productToFirestore))
     }
 
 }
-
-
-
 
 export const refreshProduct= ( id, product ) => ({
     type: types.productsUpdated,
@@ -148,8 +132,6 @@ export const refreshProduct= ( id, product ) => ({
         }
     }
 });
-
-
 
 
 export const deleteProducts= (id) => ({

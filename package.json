@@ -12,6 +12,7 @@
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
     "@themesberg/react-bootstrap": "^1.4.1",
+    "axios": "^0.21.1",
     "bootstrap": "^4.5.2",
     "chart.js": "^2.9.3",
     "classnames": "^2.2.6",
@@ -20,6 +21,7 @@
     "datatables.net-bs4": "^1.10.21",
     "datatables.net-dt": "^1.10.21",
     "driver.js": "^0.9.8",
+    "express": "^4.17.1",
     "firebase": "^8.6.1",
     "formik": "^2.2.6",
     "geofirex": "^0.1.0",
@@ -69,6 +71,7 @@
     "sweetalert2-react": "^0.8.3",
     "sweetalert2-react-content": "^3.0.3",
     "toastr": "^2.1.4",
+    "uuidv4": "^6.2.11",
     "validator": "^13.6.0",
     "yup": "^0.32.9"
   },
@@ -81,6 +84,7 @@
   "eslintConfig": {
     "extends": "react-app"
   },
+
   "browserslist": {
     "production": [
       ">0.2%",

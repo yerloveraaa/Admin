@@ -1,13 +1,14 @@
-import React, { useState } from "react";
+
+
+
+import React, { useState, useRef, useEffect } from "react";
 import { db, storage } from "../../firebase/firebaseConfig";
 import FileUploader from "react-firebase-file-uploader";
 import { useDispatch, useSelector } from "react-redux";
 import firebase from 'firebase'
-import { v4 as uuidv4 } from "uuid";
-
 
 import { useHistory } from "react-router-dom";
-import {  startLoadingRestaurants } from "../../action/restaurants";
+import { activeRestaurant, startLoadingRestaurants, startRemoveImg, startRemoveMultiple, startSaveRestaurant } from "../../action/restaurants";
 import { useForm } from "../../hooks/useForm";
 import DatePicker from "react-datepicker";
 import * as geofirex from 'geofirex';
@@ -18,44 +19,86 @@ import "react-datepicker/dist/react-datepicker.css";
 import Select from 'react-select'
 
 import "./index.css"
-import { style } from "../../helpers/styles";
 import { helpOptions } from "../../helpers/helpOptions";
+import { style } from "../../helpers/styles";
+import { data } from "jquery";
 
 
-
-
-
-
-function AddRestaurant() {
-    let history = useHistory();
+function UpdateToRestaurants() {
     const dispatch = useDispatch();
+    let history = useHistory();
     const geo = geofirex.init(firebase);
 
+    const { uid } = useSelector((state) => state.auth);
+    const { active: Restaurant } = useSelector(state => state.restaurants)
+
+    const activeId = useRef(Restaurant.id)
+
+    const [photo, setphoto] = useState(Restaurant.photo);
+    const [photos, setphotos] = useState(Restaurant.photos);
+    const [filters, setfilters] = useState(Restaurant.filters);
+    const [createdAtTime, setCreatedAt] = useState(Restaurant.createdAt);
+    // const date = createdAtTime.toDate().toLocaleString('en-US')
+    // const [createdAt, setStartDate] = useState();
 
 
-    const { uid: author, name: authorName } = useSelector((state) => state.auth);
-    const [photo, setphoto] = useState();
-    const [photos, setphotos] = useState([]);
-    const [createdAt, setStartDate] = useState(new Date());
-    const [filters, setfilters] = useState([])
+    const [location, setlocation] = useState(Restaurant.location);
+    const {_lat, _long} = location.geopoint;
+    const [latitud, setLatitud] =  useState(_lat)
+    const [longitud, setLongitud] =  useState(_long)
 
-    const [formValues, handleInputChange, reset] = useForm({
-        category: "",
-        description: "",
-        price: "",
-        title: "",
-        address: "",
-        lat: "",
-        longitud: "",
-        latitud: "",
-        city: ""
-    });
+    
 
-    const {  description, price, title, longitud, latitud, address} = formValues;
 
-    const ref = firebase.firestore().collection("vendors");
+    const [formValues, handleInputChange, reset] = useForm(Restaurant);
 
- 
+    let {
+        description,
+        price,
+       title,
+       authorName,  
+       author
+    } = formValues;
+
+
+    useEffect(() => {
+        if (Restaurant.id !== activeId.current) {
+            reset(Restaurant);
+            activeId.current = Restaurant.id;
+        }
+    }, [Restaurant, photo, reset]);
+
+
+    useEffect(() => {
+        dispatch(activeRestaurant(formValues.id, { ...formValues }));
+    }, [formValues, dispatch]);
+
+    const handleDateChange = (date) => {
+
+        // setStartDate(date)
+    }
+
+
+    const handleChange = filters => {
+        setfilters( filters );
+      
+    };
+    const handleChangeGeolong = e => {
+        setLongitud(e.target.value)
+    
+    }
+    const handleChangeGeolat = e => {
+        setLatitud(e.target.value)
+    
+    }
+
+    const handleUploadSuccessMultiple = async (filename) => {
+        let downloadURL = await storage
+          .ref("productos")
+          .child(filename)
+          .getDownloadURL();
+        setphotos(( photos) => [... photos, downloadURL]);
+      };
 
 
     const handleUploadSuccess = async (filename) => {
@@ -63,101 +106,71 @@ function AddRestaurant() {
             .ref("productos")
             .child(filename)
             .getDownloadURL();
-        setphoto(downloadURL);
+        setphoto(downloadURL );
 
+    };
+    const handledSave = () => {
+        const restaurant = {...Restaurant, photo, photos, filters, location: geo.point(latitud, longitud)}
+        dispatch(startSaveRestaurant(restaurant))
+        return history.push('/restaurant')
     };
 
 
+    const deleteImgFirebase = (photo) => {
+        let fileRef = storage.refFromURL(photo);
+        fileRef.delete().then(function () {
+          setphoto('')
+        }).catch(function (error) {
+        });
+        dispatch(startRemoveImg(photo,  Restaurant ))
+      };
+    
+      const deleteImgMultiple = (index) => {
+        let fileRef = storage.refFromURL(index);
+        fileRef.delete().then(function () {
+          console.log("File Deleted")
+        }).catch(function (error) {
+    
+        });
+        dispatch(startRemoveMultiple(photos, index, Restaurant))   
+      };
 
-
-    const handleUploadSuccessMultiple = async (filename) => {
-        let downloadURL = await storage
-            .ref("productos")
-            .child(filename)
-            .getDownloadURL();
-        setphotos((photos) => [...photos, downloadURL]);
-    };
-
-    const handleDateChange = (date) => {
-        setStartDate(date)
-    }
-
-    const handleChange = filters => {
-        setfilters( filters );
-      
-    };
-
-
-
-    const handleSaveToRestaurants = (vendor) => {
-        ref
-            .doc(vendor.id)
-            .set(vendor)
-            .catch((err) => {
-              console.error(err);
-            });
-            dispatch(startLoadingRestaurants( author));
-            return history.push("/restaurant");
-              
-          }
-
-
-
-
-  
     return (
         <div className="ms-content-wrapper">
             <div className="rowCenter">
                 <div className="col-md-8">
                     <div className="ms-panel ms-panel-fh">
                         <div className="ms-panel-header">
-                            <h6 >Create New Restaurants </h6>
+                            <h6>Create New Restaurants </h6>
                         </div>
                         <div className="ms-panel-body">
-                        
-                                <div className="form-row">
-                                    <div className="col-md-12 mb-3">
-                                        <label htmlFor="product">Restaurants Name</label>
-                                        <div className="input-group">
-                                            <input
-                                                type="text"
-                                                className="form-control"
-                                                id="title"
-                                                placeholder="Restaurants Name"
-                                                name="title"
-                                                value={title}
-                                                onChange={handleInputChange}
-                                                required
 
-                                            />
-                                            <div className="valid-feedback">Looks good!</div>
-                                        </div>
+                            <div className="form-row">
+                                <div className="col-md-12 mb-3">
+                                    <label htmlFor="product">Restaurants Name</label>
+                                    <div className="input-group">
+                                        <input
+                                            type="text"
+                                            className="form-control"
+                                            id="title"
+                                            placeholder="Restaurants title"
+                                            name="title"
+                                            value={title}
+                                            onChange={handleInputChange}
+                                            required
+
+                                        />
+                                        <div className="valid-feedback">Looks good!</div>
                                     </div>
-                                    <div className="col-md-12 mb-3">
-                                        <label htmlFor="product">Restaurants Address</label>
-                                        <div className="input-group">
-                                            <input
-                                                type="text"
-                                                className="form-control"
-                                                id="address"
-                                                placeholder="337 Essex St, Lawrence, MA 01840"
-                                                name="address"
-                                                value={address}
-                                                onChange={handleInputChange}
-                                                required
-
-                                            />
-                                            <div className="valid-feedback">Looks good!</div>
-                                        </div>
-                                    </div>
-
-                                    <div className="col-md-6 mb-3">
+                                </div>
+ 
+                                <div className="col-md-6 mb-3">
                                         <label htmlFor="category">Select Catagory</label>
                                         <div className="input-group">
                                             <Select
-                                                className="w-100 "                                                
+                                                className="w-100"        
                                                 isMulti
-                                                value={filters.value}
+                                                value={filters}
                                                 options={helpOptions}
                                                 onChange={handleChange}
                                                 styles={style}
@@ -168,43 +181,45 @@ function AddRestaurant() {
                                         </div>
                                     </div>
 
-                                    <div className="col-md-6 mb-3">
-                                        <label htmlFor="price">Price</label>
-                                        <div className="input-group">
-                                            <input
-                                                type="text"
-                                                className="form-control"
-                                                id="price"
-                                                placeholder="$10"
-                                                name="price"
-                                                value={price}
-                                                onChange={handleInputChange}
-                                                required
 
-                                            />
-                                            <div className="invalid-feedback">Price</div>
+                                <div className="col-md-6 mb-3">
+                                    <label htmlFor="price">Price</label>
+                                    <div className="input-group">
+                                        <input
+                                            type="text"
+                                            className="form-control"
+                                            id="price"
+                                            placeholder="$10"
+                                            name="price"
+                                            value={price}
+                                            onChange={handleInputChange}
+                                            required
+
+                                        />
+                                        <div className="invalid-feedback">Price</div>
+                                    </div>
+                                </div>
+                                <div className="col-md-12 mb-3">
+                                    <label htmlFor="description">Description</label>
+                                    <div className="input-group">
+                                        <textarea
+                                            rows={5}
+                                            id="description"
+                                            className="form-control"
+                                            placeholder="Message"
+                                            name="description"
+                                            onChange={handleInputChange}
+                                            value={description}
+                                            required
+
+                                        />
+                                        <div className="invalid-feedback">
+                                            Please provide a message.
                                         </div>
                                     </div>
-                                    <div className="col-md-12 mb-3">
-                                        <label htmlFor="description">Description</label>
-                                        <div className="input-group">
-                                            <textarea
-                                                rows={5}
-                                                id="description"
-                                                className="form-control"
-                                                placeholder="Message"
-                                                name="description"
-                                                onChange={handleInputChange}
-                                                value={description}
-                                                required
+                                </div>
 
-                                            />
-                                            <div className="invalid-feedback">
-                                                Please provide a message.
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="col-md-12 mb-3 ">
+                                <div className="col-md-12 mb-3 ">
                                         <label htmlFor="photo">Cover Photo</label>
                                         <div className="custom-file">
                                             <FileUploader
@@ -228,18 +243,39 @@ function AddRestaurant() {
                                         </div>
                                     </div>
                                     <div className="col-md-12 mb-3">
-                                        {photo?.length > 0 && (
+                                        {/* {photo.length > 0 && (
                                             <div className="d-block mb-4 h-100">
-                                              
+                                                {photo.map((downloadURL, i) => {
+                                                    return (
                                                         <img
                                                             className="img-fluid img-thumbnail"
-                                                            src={photo}
+                                                            key={i}
+                                                            src={downloadURL}
                                                             width="304"
                                                             height="236"
+                                                            onClick={() => deleteImgFirebase(downloadURL)}
                                                         />
+                                                    );
+                                                })}
                                             </div>
-                                        )}
+                                        )} */}
+
+                                        {
+                                            photo?.length > 0 && (
+                                                <div className="d-block mb-4 h-100">
+                                                <img
+                                                className="img-fluid img-thumbnail"
+                                                 src={photo}
+                                                 width="304"
+                                                 height="236"
+                                                 onClick={() => deleteImgFirebase(photo)}
+                                                />
+                                                </div>
+                                            )
+                                        }
                                     </div>
+
+
                                     <div className="col-md-12 mb-3">
                                         <label htmlFor="photos">Photos</label>
                                         <div className="custom-file">
@@ -250,6 +286,7 @@ function AddRestaurant() {
                                                 randomizeFilename
                                                 storageRef={storage.ref("productos")}
                                                 onUploadSuccess={handleUploadSuccessMultiple}
+                                                multiple
 
                                             />
                                             <label
@@ -274,6 +311,8 @@ function AddRestaurant() {
                                                             src={downloadURL}
                                                             width="304"
                                                             height="236"
+                                                            onClick={() => deleteImgMultiple(downloadURL)}
+
                                                         />
                                                     );
                                                 })}
@@ -281,21 +320,26 @@ function AddRestaurant() {
                                         )}
                                     </div>
 
-                                    <div className="col-md-6 mb-3">
+
+                                    {/* <div className="col-md-6 mb-3">
 
                                         <label htmlFor="product">Date</label>
                                         <div className="input-group">
-                                            <DatePicker
+                                        <input
                                                 type="text"
-                                                selected={createdAt}
-                                                onChange={handleDateChange}
-                                                className="form-control "
-                                                // showTimeSelect
-                                                dateFormat="Pp"
+                                                className="form-control"
+                                                id="Author"
+                                                placeholder={name}
+                                                value={date}
+                                                name="Author"
+                                                onChange={handleChange}
+                                                disabled
+                                                required
+
                                             />
                                             <div className="valid-feedback">Looks good!</div>
                                         </div>
-                                    </div>
+                                    </div> */}
 
 
                                     <div className="col-md-6 mb-3">
@@ -305,7 +349,7 @@ function AddRestaurant() {
                                                 type="text"
                                                 className="form-control"
                                                 id="Author"
-                                                placeholder="Author Name"
+                                                placeholder='Author'
                                                 value={authorName}
                                                 name="Author"
                                                 onChange={handleChange}
@@ -318,6 +362,9 @@ function AddRestaurant() {
                                     </div>
 
 
+
+
+
                                     <div className="col-md-6 mb-3">
                                         <label htmlFor="longitud">Longitud</label>
                                         <input
@@ -327,7 +374,7 @@ function AddRestaurant() {
                                             placeholder=" -70.66733836883432"
                                             name="longitud"
                                             value={longitud}
-                                            onChange={handleInputChange}
+                                            onChange={handleChangeGeolong}
                                             required
 
                                         />
@@ -343,7 +390,7 @@ function AddRestaurant() {
                                                 placeholder="19.424041154954804,"
                                                 name="latitud"
                                                 value={latitud}
-                                                onChange={handleInputChange}
+                                                onChange={ handleChangeGeolat}
                                                 required
 
                                             />
@@ -351,16 +398,15 @@ function AddRestaurant() {
                                         </div>
                                     </div>
 
-                                   
 
-                                    <button
-                                        className="btn btn-block btn-info"
-                                       onClick={() => handleSaveToRestaurants({ id: uuidv4(), address,authorName,  author,createdAt,description, price,title, photo,photos, filters, location: geo.point(latitud, longitud)  })}
-                                    >
-                                        Create Restaurant
-                                    </button>
-                                </div>
-                           
+
+                                <button
+                                    className="btn btn-block btn-info"
+                                    onClick={handledSave}
+                                >
+                                    Update Restaurant
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -369,4 +415,4 @@ function AddRestaurant() {
     );
 }
 
-export default AddRestaurant;
+export default UpdateToRestaurants;

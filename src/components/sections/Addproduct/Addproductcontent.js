@@ -18,52 +18,51 @@ function Addproductcontent() {
   let history = useHistory();
   const dispatch = useDispatch();
 
-  const [productImage, setProductImage] = useState([]);
-  const [ multipleImagen,  setMultipleImagen] = useState([]);
+  const [photo, setphoto] = useState();
+  const [photos, setphotos] = useState([]);
 
   const { uid } = useSelector((state) => state.auth);
 
-  
+
 
   const [formValues, handleInputChange, reset] = useForm({
     category: "",
-    description: "",
+    name: "",
     price: "",
     product: "",
   });
 
-  const { category, description, price, product,  } = formValues;
+  const { category, name, price, product, } = formValues;
 
- 
+
   const handleUploadSuccess = async (filename) => {
     let downloadURL = await storage
-    .ref("productos")
-    .child(filename)
-    .getDownloadURL();
-    setProductImage(( multipleImagen) => [... multipleImagen, downloadURL]);
+      .ref("productos")
+      .child(filename)
+      .getDownloadURL();
+    setphoto(downloadURL);
 
   };
+
 
   const handleUploadSuccessMultiple = async (filename) => {
     let downloadURL = await storage
       .ref("productos")
       .child(filename)
       .getDownloadURL();
-     setMultipleImagen(( multipleImagen) => [... multipleImagen, downloadURL]);
+    setphotos((photos) => [...photos, downloadURL]);
   };
 
 
 
-  function handleClick() {
-    history.push("/menu-grid");
-  }
+
 
   const handledSave = async (e) => {
     e.preventDefault();
-    const data = { category, description, price, product,  productImage,  multipleImagen };
-    const doc = await db.collection(`${uid}/journal/products`).add(data);
-    dispatch(  startLoadingProducts( uid ) );
-    return handleClick()
+    const data = { category, name, price, product, photo, photos };
+    const doc = await db.collection('vendor_products').add(data);
+    dispatch(startLoadingProducts(uid));
+    return history.push("/menu-grid");
   };
 
 
@@ -77,7 +76,7 @@ function Addproductcontent() {
               <h6>Create New Product </h6>
             </div>
             <div className="ms-panel-body">
-              <form  onSubmit={handledSave}>
+              <form onSubmit={handledSave}>
                 <div className="form-row">
                   <div className="col-md-12 mb-3">
                     <label htmlFor="product">Product Name</label>
@@ -140,16 +139,16 @@ function Addproductcontent() {
                     </div>
                   </div>
                   <div className="col-md-12 mb-3">
-                    <label htmlFor="description">Description</label>
+                    <label htmlFor="name">Description</label>
                     <div className="input-group">
                       <textarea
                         rows={5}
-                        id="description"
+                        id="name"
                         className="form-control"
                         placeholder="Message"
-                        name="description"
+                        name="name"
                         onChange={handleInputChange}
-                        value={description}
+                        value={name}
                         required
 
                       />
@@ -159,22 +158,22 @@ function Addproductcontent() {
                     </div>
                   </div>
                   <div className="col-md-12 mb-3">
-                    <label htmlFor="productImage">Cover Photo</label>
+                    <label htmlFor="photo">Cover Photo</label>
                     <div className="custom-file">
                       <FileUploader
                         accept="image/*"
-                        id="productImage"
-                        name="productImage"
+                        id="photo"
+                        name="photo"
                         className="custom-file-input"
                         randomizeFilename
                         storageRef={storage.ref("productos")}
                         onUploadSuccess={handleUploadSuccess}
-                        
-             
+
+
                       />
                       <label
                         className="custom-file-label"
-                        htmlFor="productImage"
+                        htmlFor="photo"
                       >
                         Upload Images...
                       </label>
@@ -184,38 +183,34 @@ function Addproductcontent() {
                     </div>
                   </div>
                   <div className="col-md-12 mb-3">
-                  { productImage.length > 0 && (
+                    {photo?.length > 0 && (
                       <div className="d-block mb-4 h-100">
-                        { productImage.map((downloadURL, i) => {
-                          return (
-                            <img
-                              className="img-fluid img-thumbnail"
-                              key={i}
-                              src={downloadURL}
-                              width="304"
-                              height="236"
-                            />
-                          );
-                        })}
+
+                        <img
+                          className="img-fluid img-thumbnail"
+                          src={photo}
+                          width="304"
+                          height="236"
+                        />
                       </div>
                     )}
                   </div>
                   <div className="col-md-12 mb-3">
-                    <label htmlFor="multipleImagen">Photos</label>
+                    <label htmlFor="photos">Photos</label>
                     <div className="custom-file">
                       <FileUploader
                         accept="image/*"
-                        id="multipleImagen"
-                        name="multipleImagen"
+                        id="photos"
+                        name="photos"
                         randomizeFilename
                         storageRef={storage.ref("productos")}
                         onUploadSuccess={handleUploadSuccessMultiple}
                         multiple
-                   
+
                       />
                       <label
                         className="custom-file-label"
-                        htmlFor="multipleImagen"
+                        htmlFor="photos"
                       >
                         Upload Images...
                       </label>
@@ -225,9 +220,9 @@ function Addproductcontent() {
                     </div>
                   </div>
                   <div className="col-md-12 mb-3">
-                    { multipleImagen.length > 0 && (
+                    {photos.length > 0 && (
                       <div className="d-block mb-4 h-100">
-                        { multipleImagen.map((downloadURL, i) => {
+                        {photos.map((downloadURL, i) => {
                           return (
                             <img
                               className="img-fluid img-thumbnail"

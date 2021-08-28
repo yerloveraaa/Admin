@@ -1,23 +1,24 @@
 import React, { Component } from 'react';
 import Sidenavigation from '../layouts/Sidenavigation';
 import Topnavigation from '../layouts/Topnavigation';
-// import Gridcontent from '../sections/Menugrid/Gridcontent'
-import Restaurants from '../sections/JMRestaurants/Restaurants'
+
+import { useSelector } from 'react-redux';
+import UpdateUser from '../sections/User/UpdateUser';
 
 
-class JMRestaurants extends Component {
-    render() {
+function UpdateUsers()  {
+  const {active} = useSelector(state => state.products)
+
         return (
             <div className="ms-body ms-aside-left-open ms-primary-theme ms-has-quickbar">
                 <Sidenavigation />
                 <main className="body-content">
                     <Topnavigation />
-                    <Restaurants />
+                 <UpdateUser />
                 </main>
-               
             </div>
         );
     }
-}
 
-export default JMRestaurants;
+
+export default UpdateUsers

@@ -4,7 +4,7 @@ import { db } from '../firebase/firebaseConfig';
 
 
 export const loadProducts = async ( uid ) => {
-    const productsSnap = await db.collection(`${ uid }/journal/products`).get();
+    const productsSnap = await db.collection("vendor_products").get();
     const products = [];
  productsSnap.forEach( snapChildren => {
         products.push({
@@ -15,8 +15,8 @@ export const loadProducts = async ( uid ) => {
     return products;
 }
 
-export const loadRestaurants = async () => {
-    const restaurantsSnap = await db.collection("restaurants").get();
+export const loadRestaurants = async (uid) => {
+    const restaurantsSnap = await db.collection("vendors").get();
     const restaurants = [];
     restaurantsSnap.forEach( snapChildren => {
         restaurants.push({
@@ -26,4 +26,21 @@ export const loadRestaurants = async () => {
     });
     return restaurants;
 }
+
+
+export const loadUsers = async () => {
+    const userSnap  =  await db.collection('users').get()
+    const users = [];
+    userSnap.forEach(snapChildren => {
+        users.push({
+            id: snapChildren.id,
+            ...snapChildren.data()
+        })
+    })
+
+    return users;
+
+}
+
+
 
