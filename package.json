@@ -84,7 +84,7 @@
   "eslintConfig": {
     "extends": "react-app"
   },
-  "proxy": "https://us-central1-jmsdevstudio.cloudfunctions.net/api",
+
   "browserslist": {
     "production": [
       ">0.2%",
