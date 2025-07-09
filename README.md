@@ -1,11 +1,35 @@
-A starter project with react native 0.75.3, @storybook/react-native 8, storybook/addon-react-native-web
+<p align="center">
+  <a href="https://rnfirebase.io">
+    <img width="160px" src="https://github.com/yerloveraaa/Admin/blob/main/daxir-app.png"><br/>
+  </a>
+  <h2 align="center">React Native Components</h2>
+</p>
 
-![picture of storybook](https://github.com/user-attachments/assets/cf98766d-8b90-44ab-b718-94ab16e63205)
-## Firebase Modules
 
-This is the root of the mono-repo for React Native Firebase, if you're looking for a specific package please select the package link from below.
+A curated collection of reusable React Native components and utilities tailored for rapid mobile app development.
 
-The main package that you interface with is `App` (`@react-native-firebase/app`)
+## 🔥 Features
+
+- 🧩 **Modular exports.**
+  - Import only the components and utilities you need to keep bundle size minimal.
+- 🎨 **Theming support.**
+  - Seamless integration with @jmstechnologiesinc/react-native-paper for consistent styling.
+- 🌐 **Localization utilities.**
+  - Built-in localized and setI18nConfig for easy i18n setup.
+- 📍 **Map and geolocation components.**
+  - Core MapboxGLWrapper with subcomponents for cameras, markers, tooltips, and heatmaps.
+  - High-level APIs for routes, bounding boxes, driver monitoring, and location selection.
+- 🔧 **Comprehensive helper functions.**
+  - Utilities for image URLs, action sheets, deep linking, permissions, geolocation, and more.
+  - Maximizes cross-platform code re-usability e.g. re-using code on web platforms.
+---
+
+![picture of storybook](https://github.com/yerloveraaa/Admin/blob/main/daxir.png)
+## Modular Components
+
+A lightweight, modular suite of over 20 reusable React Native UI components—fully customizable via props and styles.  
+If you’re looking for a specific component, please select its link from the list below.
+
 
 | Name                                                                                                                      | Demo                                                                                                                                              |
 | ------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -33,73 +57,52 @@ The main package that you interface with is `App` (`@react-native-firebase/app`)
 | [Vendor List](https://github.com/jmstechnologiesinc/react-native-components/tree/main/packages/components/src/VendorList) | [![Demo: View demo](https://img.shields.io/badge/Demo-View%20demo-brightgreen?style=for-the-badge&logo=play&logoColor=white)](https://react-native-components-e19ee.web.app/?path=/docs/packages-vendorlist--docs) |
 
 
+## 📦 Installation
 
+```bash
+npm install @jmstechnologiesinc/react-native-components
+# or
+yarn add @jmstechnologiesinc/react-native-components
+```
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## ⚙️ Peer Dependencies
 
-## Available Scripts
+* `react`
+* `react-native`
+* `@jmstechnologiesinc/react-native-paper`
 
-In the project directory, you can run:
+Install peers:
 
-### `npm start`
+```bash
+npm install react react-native @jmstechnologiesinc/react-native-paper
+```
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## 🚀 Usage
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+### Basic Import
 
-### `npm test`
+```js
+import {
+  List,
+  ProductList,
+  Tabs,
+  ActionGroup,
+  Form,
+  ImagePicker,
+  styles,
+} from '@jmstechnologiesinc/react-native-components';
+```
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 🤝 Contributing
 
-### `npm run build`
+1. Fork: `git clone https://github.com/jmstechnologiesinc/react-native-components.git`
+2. Branch: `git checkout -b feature/YourFeature`
+3. Commit: `git commit -m "Add new component"`
+4. Push: `git push origin feature/YourFeature`
+5. PR: Open a pull request.
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Follow code style and run `npm run build` before submitting.
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+## 📄 License
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+ISC © JMSTechnologies Inc.
