@@ -5,25 +5,26 @@ This is the root of the mono-repo for React Native Firebase, if you're looking f
 
 The main package that you interface with is `App` (`@react-native-firebase/app`)
 
-| Name                                                     | Demo                              |
-| -------------------------------------------------------- | --------------------------------- |
-| [Analytics](/packages/analytics)                         | [View demo](/packages/analytics)  |
-| [App](/packages/app)                                     | [View demo](/packages/app)        |
-| [App Check](/packages/app-check)                         | [View demo](/packages/app-check)  |
-| [App Distribution](/packages/app-distribution)           | [View demo](/packages/app-distribution) |
-| [Authentication](/packages/auth)                         | [View demo](/packages/auth)       |
-| [Cloud Firestore](/packages/firestore)                   | [View demo](/packages/firestore)  |
-| [Cloud Functions](/packages/functions)                   | [View demo](/packages/functions)  |
-| [Cloud Messaging](/packages/messaging)                   | [View demo](/packages/messaging)  |
-| [Cloud Storage](/packages/storage)                       | [View demo](/packages/storage)    |
-| [Crashlytics](/packages/crashlytics)                     | [View demo](/packages/crashlytics)|
-| [Dynamic Links](/packages/dynamic-links)                 | [View demo](/packages/dynamic-links) |
-| [In-app Messaging](/packages/in-app-messaging)           | [View demo](/packages/in-app-messaging) |
-| [Installations](/packages/installations)                 | [View demo](/packages/installations) |
-| [ML](/packages/ml)                                       | [View demo](/packages/ml)         |
-| [Performance Monitoring](/packages/perf)                 | [View demo](/packages/perf)       |
-| [Realtime Database](/packages/database)                  | [View demo](/packages/database)   |
-| [Remote Config](/packages/remote-config)                 | [View demo](/packages/remote-config) |
+| Name                                                     | Demo                                                                                                                                                             |
+| -------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [Analytics](/packages/analytics)                         | [<img src="https://img.icons8.com/ios-filled/16/000000/play.png" alt="demo" /> View demo](/packages/analytics)                                                  |
+| [App](/packages/app)                                     | [<img src="https://img.icons8.com/ios-filled/16/000000/play.png" alt="demo" /> View demo](/packages/app)                                                        |
+| [App Check](/packages/app-check)                         | [<img src="https://img.icons8.com/ios-filled/16/000000/play.png" alt="demo" /> View demo](/packages/app-check)                                                  |
+| [App Distribution](/packages/app-distribution)           | [<img src="https://img.icons8.com/ios-filled/16/000000/play.png" alt="demo" /> View demo](/packages/app-distribution)                                          |
+| [Authentication](/packages/auth)                         | [<img src="https://img.icons8.com/ios-filled/16/000000/play.png" alt="demo" /> View demo](/packages/auth)                                                       |
+| [Cloud Firestore](/packages/firestore)                   | [<img src="https://img.icons8.com/ios-filled/16/000000/play.png" alt="demo" /> View demo](/packages/firestore)                                                  |
+| [Cloud Functions](/packages/functions)                   | [<img src="https://img.icons8.com/ios-filled/16/000000/play.png" alt="demo" /> View demo](/packages/functions)                                                  |
+| [Cloud Messaging](/packages/messaging)                   | [<img src="https://img.icons8.com/ios-filled/16/000000/play.png" alt="demo" /> View demo](/packages/messaging)                                                  |
+| [Cloud Storage](/packages/storage)                       | [<img src="https://img.icons8.com/ios-filled/16/000000/play.png" alt="demo" /> View demo](/packages/storage)                                                    |
+| [Crashlytics](/packages/crashlytics)                     | [<img src="https://img.icons8.com/ios-filled/16/000000/play.png" alt="demo" /> View demo](/packages/crashlytics)                                               |
+| [Dynamic Links](/packages/dynamic-links)                 | [<img src="https://img.icons8.com/ios-filled/16/000000/play.png" alt="demo" /> View demo](/packages/dynamic-links)                                             |
+| [In-app Messaging](/packages/in-app-messaging)           | [<img src="https://img.icons8.com/ios-filled/16/000000/play.png" alt="demo" /> View demo](/packages/in-app-messaging)                                           |
+| [Installations](/packages/installations)                 | [<img src="https://img.icons8.com/ios-filled/16/000000/play.png" alt="demo" /> View demo](/packages/installations)                                             |
+| [ML](/packages/ml)                                       | [<img src="https://img.icons8.com/ios-filled/16/000000/play.png" alt="demo" /> View demo](/packages/ml)                                                        |
+| [Performance Monitoring](/packages/perf)                 | [<img src="https://img.icons8.com/ios-filled/16/000000/play.png" alt="demo" /> View demo](/packages/perf)                                                      |
+| [Realtime Database](/packages/database)                  | [<img src="https://img.icons8.com/ios-filled/16/000000/play.png" alt="demo" /> View demo](/packages/database)                                                 |
+| [Remote Config](/packages/remote-config)                 | [<img src="https://img.icons8.com/ios-filled/16/000000/play.png" alt="demo" /> View demo](/packages/remote-config)                                            |
+
 
 
 
