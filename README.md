@@ -5,26 +5,25 @@ This is the root of the mono-repo for React Native Firebase, if you're looking f
 
 The main package that you interface with is `App` (`@react-native-firebase/app`)
 
-| Name                                                     | Demo                                                                                                                                                             |
-| -------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [Analytics](/packages/analytics)                         | [<img src="https://img.icons8.com/ios-filled/16/000000/play.png" alt="demo" /> View demo](/packages/analytics)                                                  |
-| [App](/packages/app)                                     | [<img src="https://img.icons8.com/ios-filled/16/000000/play.png" alt="demo" /> View demo](/packages/app)                                                        |
-| [App Check](/packages/app-check)                         | [<img src="https://img.icons8.com/ios-filled/16/000000/play.png" alt="demo" /> View demo](/packages/app-check)                                                  |
-| [App Distribution](/packages/app-distribution)           | [<img src="https://img.icons8.com/ios-filled/16/000000/play.png" alt="demo" /> View demo](/packages/app-distribution)                                          |
-| [Authentication](/packages/auth)                         | [<img src="https://img.icons8.com/ios-filled/16/000000/play.png" alt="demo" /> View demo](/packages/auth)                                                       |
-| [Cloud Firestore](/packages/firestore)                   | [<img src="https://img.icons8.com/ios-filled/16/000000/play.png" alt="demo" /> View demo](/packages/firestore)                                                  |
-| [Cloud Functions](/packages/functions)                   | [<img src="https://img.icons8.com/ios-filled/16/000000/play.png" alt="demo" /> View demo](/packages/functions)                                                  |
-| [Cloud Messaging](/packages/messaging)                   | [<img src="https://img.icons8.com/ios-filled/16/000000/play.png" alt="demo" /> View demo](/packages/messaging)                                                  |
-| [Cloud Storage](/packages/storage)                       | [<img src="https://img.icons8.com/ios-filled/16/000000/play.png" alt="demo" /> View demo](/packages/storage)                                                    |
-| [Crashlytics](/packages/crashlytics)                     | [<img src="https://img.icons8.com/ios-filled/16/000000/play.png" alt="demo" /> View demo](/packages/crashlytics)                                               |
-| [Dynamic Links](/packages/dynamic-links)                 | [<img src="https://img.icons8.com/ios-filled/16/000000/play.png" alt="demo" /> View demo](/packages/dynamic-links)                                             |
-| [In-app Messaging](/packages/in-app-messaging)           | [<img src="https://img.icons8.com/ios-filled/16/000000/play.png" alt="demo" /> View demo](/packages/in-app-messaging)                                           |
-| [Installations](/packages/installations)                 | [<img src="https://img.icons8.com/ios-filled/16/000000/play.png" alt="demo" /> View demo](/packages/installations)                                             |
-| [ML](/packages/ml)                                       | [<img src="https://img.icons8.com/ios-filled/16/000000/play.png" alt="demo" /> View demo](/packages/ml)                                                        |
-| [Performance Monitoring](/packages/perf)                 | [<img src="https://img.icons8.com/ios-filled/16/000000/play.png" alt="demo" /> View demo](/packages/perf)                                                      |
-| [Realtime Database](/packages/database)                  | [<img src="https://img.icons8.com/ios-filled/16/000000/play.png" alt="demo" /> View demo](/packages/database)                                                 |
-| [Remote Config](/packages/remote-config)                 | [<img src="https://img.icons8.com/ios-filled/16/000000/play.png" alt="demo" /> View demo](/packages/remote-config)                                            |
-
+| Name                                                     | Demo                                                                                                                                              |
+| -------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [Analytics](/packages/analytics)                         | [![Demo: View demo](https://img.shields.io/badge/Demo-View%20demo-brightgreen?style=for-the-badge&logo=play&logoColor=white)](/packages/analytics) |
+| [App](/packages/app)                                     | [![Demo: View demo](https://img.shields.io/badge/Demo-View%20demo-brightgreen?style=for-the-badge&logo=play&logoColor=white)](/packages/app)       |
+| [App Check](/packages/app-check)                         | [![Demo: View demo](https://img.shields.io/badge/Demo-View%20demo-brightgreen?style=for-the-badge&logo=play&logoColor=white)](/packages/app-check) |
+| [App Distribution](/packages/app-distribution)           | [![Demo: View demo](https://img.shields.io/badge/Demo-View%20demo-brightgreen?style=for-the-badge&logo=play&logoColor=white)](/packages/app-distribution) |
+| [Authentication](/packages/auth)                         | [![Demo: View demo](https://img.shields.io/badge/Demo-View%20demo-brightgreen?style=for-the-badge&logo=play&logoColor=white)](/packages/auth)      |
+| [Cloud Firestore](/packages/firestore)                   | [![Demo: View demo](https://img.shields.io/badge/Demo-View%20demo-brightgreen?style=for-the-badge&logo=play&logoColor=white)](/packages/firestore) |
+| [Cloud Functions](/packages/functions)                   | [![Demo: View demo](https://img.shields.io/badge/Demo-View%20demo-brightgreen?style=for-the-badge&logo=play&logoColor=white)](/packages/functions) |
+| [Cloud Messaging](/packages/messaging)                   | [![Demo: View demo](https://img.shields.io/badge/Demo-View%20demo-brightgreen?style=for-the-badge&logo=play&logoColor=white)](/packages/messaging) |
+| [Cloud Storage](/packages/storage)                       | [![Demo: View demo](https://img.shields.io/badge/Demo-View%20demo-brightgreen?style=for-the-badge&logo=play&logoColor=white)](/packages/storage)   |
+| [Crashlytics](/packages/crashlytics)                     | [![Demo: View demo](https://img.shields.io/badge/Demo-View%20demo-brightgreen?style=for-the-badge&logo=play&logoColor=white)](/packages/crashlytics)|
+| [Dynamic Links](/packages/dynamic-links)                 | [![Demo: View demo](https://img.shields.io/badge/Demo-View%20demo-brightgreen?style=for-the-badge&logo=play&logoColor=white)](/packages/dynamic-links)|
+| [In-app Messaging](/packages/in-app-messaging)           | [![Demo: View demo](https://img.shields.io/badge/Demo-View%20demo-brightgreen?style=for-the-badge&logo=play&logoColor=white)](/packages/in-app-messaging)|
+| [Installations](/packages/installations)                 | [![Demo: View demo](https://img.shields.io/badge/Demo-View%20demo-brightgreen?style=for-the-badge&logo=play&logoColor=white)](/packages/installations)|
+| [ML](/packages/ml)                                       | [![Demo: View demo](https://img.shields.io/badge/Demo-View%20demo-brightgreen?style=for-the-badge&logo=play&logoColor=white)](/packages/ml)          |
+| [Performance Monitoring](/packages/perf)                 | [![Demo: View demo](https://img.shields.io/badge/Demo-View%20demo-brightgreen?style=for-the-badge&logo=play&logoColor=white)](/packages/perf)        |
+| [Realtime Database](/packages/database)                  | [![Demo: View demo](https://img.shields.io/badge/Demo-View%20demo-brightgreen?style=for-the-badge&logo=play&logoColor=white)](/packages/database)   |
+| [Remote Config](/packages/remote-config)                 | [![Demo: View demo](https://img.shields.io/badge/Demo-View%20demo-brightgreen?style=for-the-badge&logo=play&logoColor=white)](/packages/remote-config)|
 
 
 
